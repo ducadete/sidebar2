@@ -4,6 +4,7 @@
   "version": "1.2",
   "description": "Acesso rápido a protocolos e geração de texto SOAP em um painel lateral.",
   "permissions": ["sidePanel", "clipboardWrite"],
+  "host_permissions": ["https://www2.bauru.sp.gov.br/*"],
   "icons": {
     "128": "icon128.png"
   },
