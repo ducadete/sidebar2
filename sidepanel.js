@@ -20,74 +20,32 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // --------- Dados de protocolos ---------
-  const protocolosData = [
-    {
-      nome: 'CEO - Cirurgia Oral Menor',
-      resumo:
-        'Critérios de encaminhamento e fluxo assistencial para cirurgias orais de maior complexidade no CEO.',
-      pontosChave: [
-        'Priorizar casos sintomáticos com dentes inclusos ou impactados.',
-        'Garantir adequação do meio bucal antes do encaminhamento.',
-        'Exodontias simples permanecem na Atenção Básica.'
-      ],
-      fluxo: [
-        'Avaliação e adequação do meio bucal na APS.',
-        'Encaminhamento com critérios preenchidos e documentação anexada.',
-        'Procedimento especializado realizado no CEO.',
-        'Retorno para acompanhamento pós-operatório quando indicado.'
-      ],
-      cids: ['K01.1', 'K04.6', 'K04.8', 'K10.8'],
-      temas: ['Saúde Bucal', 'Procedimentos Cirúrgicos']
-    },
-    {
-      nome: 'CER - Estimulação Precoce',
-      resumo:
-        'Fluxo de regulação e critérios para encaminhar crianças de 0 a 2 anos e 11 meses ao programa de estimulação precoce.',
-      pontosChave: [
-        'Encaminhamento exclusivo para residentes com checklist completo.',
-        'Exclusão de pacientes já em reabilitação ou com alta recente.',
-        'DASCR realiza a regulação das vagas disponíveis na rede conveniada.'
-      ],
-      fluxo: [
-        'Profissional de saúde avalia critérios clínicos.',
-        'Preenchimento dos checklists e anexos obrigatórios.',
-        'Solicitação registrada no prontuário com CID elegível.',
-        'Regulação médica agenda o atendimento conforme prioridade.'
-      ],
-      cids: ['F82', 'F84.0', 'G80.0', 'Q02'],
-      temas: ['Reabilitação', 'Saúde da Criança']
-    },
-    {
-      nome: 'Pré-Natal de Risco Habitual',
-      resumo: 'Etapas essenciais do acompanhamento pré-natal de baixo risco na APS.',
-      pontosChave: [
-        'Primeira consulta com anamnese completa e solicitação de exames básicos.',
-        'Acompanhamento mensal até a 28ª semana e quinzenal até a 36ª.',
-        'Acolher sinais de alerta para encaminhamento ao alto risco.'
-      ],
-      fluxo: [
-        'Captação precoce e confirmação da gestação.',
-        'Consultas de enfermagem e medicina alternadas.',
-        'Educação em saúde, atualização vacinal e planejamento do parto.',
-        'Encaminhamento para maternidade de referência.'
-      ],
-      cids: ['Z34.0', 'Z34.8'],
-      temas: ['Saúde da Mulher', 'Pré-Natal']
-    }
-  ];
-
+  const PROTOCOL_SOURCE_URL = 'https://www2.bauru.sp.gov.br/saude/protocolos_saude.aspx';
   const protocoloSearchInput = document.getElementById('protocolo-search');
   const protocolosListContainer = document.getElementById('protocolos-list');
   const protocoloContentDisplay = document.getElementById('protocolo-content-display');
+  const searchPlaceholder = protocoloSearchInput.getAttribute('placeholder');
+  let protocolosData = [];
+
+  const normalizarTexto = valor =>
+    String(valor ?? '')
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .toLowerCase();
+
+  const mostrarMensagem = (mensagem, destino = protocolosListContainer) => {
+    destino.innerHTML = '';
+    const texto = document.createElement('p');
+    texto.className = 'placeholder-text';
+    texto.textContent = mensagem;
+    destino.appendChild(texto);
+  };
 
   function renderProtocolList(items) {
     protocolosListContainer.innerHTML = '';
 
     if (!items.length) {
-      const emptyState = document.createElement('p');
-      emptyState.className = 'placeholder-text';
-      emptyState.textContent = 'Nenhum protocolo encontrado para a busca informada.';
-      protocolosListContainer.appendChild(emptyState);
+      mostrarMensagem('Nenhum protocolo encontrado para a busca informada.');
       return;
     }
 
@@ -95,9 +53,18 @@ document.addEventListener('DOMContentLoaded', () => {
       const button = document.createElement('button');
       button.type = 'button';
       button.className = 'list-item';
-      button.textContent = `${protocol.nome}`;
-      button.dataset.nome = protocol.nome;
-      button.setAttribute('aria-label', `Abrir detalhes do protocolo ${protocol.nome}`);
+
+      const title = document.createElement('span');
+      title.className = 'list-item-title';
+      title.textContent = protocol.nome;
+
+      const subtitle = document.createElement('span');
+      subtitle.className = 'list-item-subtitle';
+      subtitle.textContent = protocol.categoria;
+
+      button.append(title, subtitle);
+      button.dataset.id = protocol.id;
+      button.setAttribute('aria-label', `Abrir detalhes do protocolo ${protocol.nome}, categoria ${protocol.categoria}`);
       protocolosListContainer.appendChild(button);
     });
   }
@@ -106,71 +73,158 @@ document.addEventListener('DOMContentLoaded', () => {
     const detalhes = document.createElement('article');
     detalhes.className = 'protocolo-detalhe';
 
-    const header = document.createElement('div');
-    header.innerHTML = `
-      <h3>${protocol.nome}</h3>
-      <p><strong>Temas:</strong> ${protocol.temas.join(', ')}</p>
-      <p><strong>CIDs associados:</strong> ${protocol.cids.join(', ')}</p>
-    `;
+    const titulo = document.createElement('h3');
+    titulo.textContent = protocol.nome;
 
-    const resumo = document.createElement('p');
-    resumo.innerHTML = `<strong>Resumo:</strong> ${protocol.resumo}`;
+    const categoria = document.createElement('p');
+    categoria.className = 'protocolo-meta';
+    const categoriaStrong = document.createElement('strong');
+    categoriaStrong.textContent = 'Categoria: ';
+    categoria.append(categoriaStrong, document.createTextNode(protocol.categoria));
 
-    const pontos = document.createElement('div');
-    pontos.innerHTML = `
-      <strong>Pontos-chave</strong>
-      <ul>${protocol.pontosChave.map(item => `<li>${item}</li>`).join('')}</ul>
-    `;
+    const linkWrapper = document.createElement('p');
+    const link = document.createElement('a');
+    link.href = protocol.url;
+    link.target = '_blank';
+    link.rel = 'noopener';
+    link.className = 'protocolo-link';
+    link.textContent = 'Abrir PDF oficial';
+    linkWrapper.appendChild(link);
 
-    const fluxo = document.createElement('div');
-    fluxo.innerHTML = `
-      <strong>Fluxo recomendado</strong>
-      <ol>${protocol.fluxo.map(item => `<li>${item}</li>`).join('')}</ol>
-    `;
+    detalhes.append(titulo, categoria);
+    if (protocol.info) {
+      const info = document.createElement('p');
+      info.className = 'protocolo-meta';
+      const infoStrong = document.createElement('strong');
+      infoStrong.textContent = 'Formato e observações: ';
+      info.append(infoStrong, document.createTextNode(protocol.info));
+      detalhes.appendChild(info);
+    }
+    detalhes.appendChild(linkWrapper);
 
-    detalhes.append(header, resumo, pontos, fluxo);
     protocoloContentDisplay.innerHTML = '';
     protocoloContentDisplay.appendChild(detalhes);
   }
 
+  function extrairProtocolos(documento) {
+    const accordion = documento.querySelector('#accordion');
+    if (!accordion) return [];
+
+    const baseUrl = new URL(PROTOCOL_SOURCE_URL);
+    const itens = Array.from(accordion.querySelectorAll('.accordion-item'));
+    const encontrados = [];
+    const vistos = new Set();
+
+    itens.forEach(item => {
+      const categoria = (item.getAttribute('title') || item.querySelector('.accordion-button')?.textContent || 'Categoria não informada').trim();
+      const linhas = Array.from(item.querySelectorAll('li'));
+
+      linhas.forEach(li => {
+        const anchor = li.querySelector('a[href]');
+        if (!anchor) return;
+        const href = anchor.getAttribute('href');
+        if (!href) return;
+
+        const absoluteUrl = new URL(href, baseUrl).toString();
+        if (!absoluteUrl.toLowerCase().endsWith('.pdf')) return;
+
+        const nome = anchor.textContent.replace(/\s+/g, ' ').trim();
+        if (!nome) return;
+
+        const infoText = Array.from(li.childNodes)
+          .filter(node => node.nodeType === Node.TEXT_NODE)
+          .map(node => node.textContent)
+          .join(' ')
+          .replace(/\s+/g, ' ')
+          .replace(/^\s*-\s*/, '')
+          .trim();
+
+        const chave = `${nome}|${absoluteUrl}`;
+        if (vistos.has(chave)) return;
+        vistos.add(chave);
+
+        encontrados.push({ nome, categoria, url: absoluteUrl, info: infoText });
+      });
+    });
+
+    return encontrados;
+  }
+
+  async function carregarProtocolos() {
+    protocoloSearchInput.disabled = true;
+    mostrarMensagem('Carregando protocolos oficiais da Prefeitura de Bauru...');
+    protocoloContentDisplay.innerHTML = '<p class="placeholder-text">Carregando dados do portal oficial...</p>';
+
+    try {
+      const resposta = await fetch(PROTOCOL_SOURCE_URL, { cache: 'no-store' });
+      if (!resposta.ok) throw new Error(`Falha ao buscar protocolos: ${resposta.status}`);
+
+      const html = await resposta.text();
+      const parser = new DOMParser();
+      const documento = parser.parseFromString(html, 'text/html');
+      const extraidos = extrairProtocolos(documento);
+
+      if (!extraidos.length) {
+        mostrarMensagem('Nenhum protocolo oficial foi encontrado no momento.');
+        protocoloContentDisplay.innerHTML = '<p class="placeholder-text">Tente novamente mais tarde.</p>';
+        return;
+      }
+
+      extraidos.sort((a, b) => {
+        const categoriaComparacao = a.categoria.localeCompare(b.categoria, 'pt-BR');
+        if (categoriaComparacao !== 0) return categoriaComparacao;
+        return a.nome.localeCompare(b.nome, 'pt-BR');
+      });
+
+      protocolosData = extraidos.map((item, index) => ({ ...item, id: String(index) }));
+      renderProtocolList(protocolosData);
+      protocoloContentDisplay.innerHTML = '<p class="placeholder-text">Selecione um protocolo para ver os detalhes.</p>';
+    } catch (erro) {
+      console.error('Erro ao carregar protocolos oficiais:', erro);
+      mostrarMensagem('Não foi possível carregar os protocolos oficiais. Verifique sua conexão e tente novamente.');
+      protocoloContentDisplay.innerHTML = '<p class="placeholder-text">Os dados do portal não puderam ser carregados.</p>';
+    } finally {
+      const possuiDados = protocolosData.length > 0;
+      protocoloSearchInput.disabled = !possuiDados;
+      const placeholderAtivo = possuiDados
+        ? searchPlaceholder || 'Buscar por nome, tema ou CID'
+        : 'Busca indisponível no momento';
+      protocoloSearchInput.setAttribute('placeholder', placeholderAtivo);
+    }
+  }
+
   protocolosListContainer.addEventListener('click', event => {
-    const target = event.target;
-    if (!(target instanceof HTMLElement) || !target.classList.contains('list-item')) return;
+    const target = event.target instanceof HTMLElement ? event.target.closest('.list-item') : null;
+    if (!target) return;
 
     document.querySelectorAll('#protocolos-list .list-item').forEach(item => item.classList.remove('active'));
     target.classList.add('active');
 
-    const protocoloSelecionado = protocolosData.find(item => item.nome === target.dataset.nome);
+    const protocoloSelecionado = protocolosData.find(item => item.id === target.dataset.id);
     if (protocoloSelecionado) {
       renderProtocolDetails(protocoloSelecionado);
     }
   });
 
   protocoloSearchInput.addEventListener('input', event => {
-    const termo = event.target.value.toLowerCase().trim();
+    const termo = event.target.value.trim();
     if (!termo) {
       renderProtocolList(protocolosData);
       protocoloContentDisplay.innerHTML = '<p class="placeholder-text">Selecione um protocolo para ver os detalhes.</p>';
       return;
     }
 
+    const termoNormalizado = normalizarTexto(termo);
     const filtrados = protocolosData.filter(protocol => {
-      const campos = [
-        protocol.nome,
-        protocol.resumo,
-        ...protocol.pontosChave,
-        ...protocol.fluxo,
-        ...protocol.cids,
-        ...protocol.temas
-      ];
-      return campos.some(valor => valor.toLowerCase().includes(termo));
+      const campos = [protocol.nome, protocol.categoria, protocol.info ?? '', protocol.url];
+      return campos.some(valor => normalizarTexto(valor).includes(termoNormalizado));
     });
 
     renderProtocolList(filtrados);
     protocoloContentDisplay.innerHTML = '<p class="placeholder-text">Selecione um protocolo para ver os detalhes.</p>';
   });
 
-  renderProtocolList(protocolosData);
+  carregarProtocolos();
 
   // --------- Guia de Consulta com geração SOAP ---------
   const atendimentos = {
