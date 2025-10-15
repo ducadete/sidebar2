@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="sidepanel.css">
+</head>
+<body>
+    <div class="container">
+        <header class="app-header">
+            <h2>Assistente USF</h2>
+        </header>
+
+        <div class="tab-buttons">
+            <button class="tab-link active" data-tab="tab-protocolos">Protocolos</button>
+            <button class="tab-link" data-tab="tab-assistente">Assistente de Consulta</button>
+        </div>
+
+        <div id="tab-protocolos" class="tab-content active">
+            <h4>Busca Inteligente de Protocolos</h4>
+            <input type="text" id="protocolo-search-bar" class="search-bar" placeholder="Buscar por nome, CID, palavra-chave...">
+            
+            <div id="protocolos-list" class="item-list">
+                </div>
+            <hr>
+            <div id="protocolo-content-display" class="content-display-area">
+                <p class="placeholder-text">Selecione um protocolo acima para ver o conteúdo.</p>
+            </div>
+        </div>
+
+        <div id="tab-assistente" class="tab-content">
+            <h4>Esqueletos de Consulta</h4>
+            <input type="text" id="assistente-search-bar" class="search-bar" placeholder="Buscar tópico...">
+            
+            <div id="topics-container" class="item-list">
+                </div>
+            <hr>
+            <div id="content-display" class="content-display-area">
+                <p class="placeholder-text">Selecione um tópico para ver o esqueleto da consulta.</p>
+            </div>
+        </div>
+
+    </div>
+    <script src="sidepanel.js"></script>
+</body>
+</html>

@@ -1,0 +1,19 @@
+{
+  "manifest_version": 3,
+  "name": "Assistente de Consultas USF",
+  "version": "1.1",
+  "description": "Acesso rápido a protocolos e esqueletos de consulta em um painel lateral.",
+  "permissions": ["sidePanel"],
+  "icons": {
+    "128": "icon128.png"
+  },
+  "background": {
+    "service_worker": "service-worker.js"
+  },
+  "side_panel": {
+    "default_path": "sidepanel.html"
+  },
+  "action": {
+    "default_title": "Abrir Assistente de Consultas"
+  }
+}
