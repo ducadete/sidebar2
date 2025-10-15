@@ -8,14 +8,14 @@
 </head>
 <body>
   <div class="container">
-    <header class="app-header">
+    <header class="app-header" data-tooltip="Resumo das principais funcionalidades disponíveis no Assistente.">
       <h1>Assistente USF</h1>
       <p>Protocolos e geração de texto SOAP em um único painel.</p>
     </header>
 
     <div class="tab-buttons" role="tablist">
-      <button class="tab-link active" data-tab="tab-protocolos" role="tab" aria-selected="true">Protocolos</button>
-      <button class="tab-link" data-tab="tab-guia" role="tab" aria-selected="false">Guia de Consulta</button>
+      <button class="tab-link active" data-tab="tab-protocolos" role="tab" aria-selected="true" data-tooltip="Explore protocolos clínicos organizados por tema.">Protocolos</button>
+      <button class="tab-link" data-tab="tab-guia" role="tab" aria-selected="false" data-tooltip="Acesse o passo a passo para gerar textos no formato SOAP.">Guia de Consulta</button>
     </div>
 
     <section id="tab-protocolos" class="tab-content active" role="tabpanel">
@@ -23,9 +23,11 @@
         <h2>Protocolos</h2>
         <p class="tab-description">Busque e visualize protocolos clínicos resumidos.</p>
       </div>
-      <input type="text" id="protocolo-search" class="search-bar" placeholder="Buscar por nome, tema ou CID">
-      <div id="protocolos-list" class="item-list" aria-live="polite"></div>
-      <div id="protocolo-content-display" class="content-display-area">
+      <div class="input-tip" data-tooltip="Digite palavras-chave, temas ou códigos CID para filtrar rapidamente os protocolos.">
+        <input type="text" id="protocolo-search" class="search-bar" placeholder="Buscar por nome, tema ou CID">
+      </div>
+      <div id="protocolos-list" class="item-list" aria-live="polite" data-tooltip="Passe o mouse sobre um protocolo para visualizar um resumo e clique para fixá-lo nesta área."></div>
+      <div id="protocolo-content-display" class="content-display-area" data-tooltip="Aqui serão exibidos os detalhes essenciais e links úteis do protocolo selecionado.">
         <p class="placeholder-text">Selecione um protocolo para ver os detalhes.</p>
       </div>
     </section>
@@ -37,17 +39,23 @@
       </div>
 
       <label for="atendimento-select" class="field-label">Tipo de atendimento</label>
-      <select id="atendimento-select" class="select-field"></select>
+      <div class="select-tip" data-tooltip="Selecione o tipo de atendimento para carregar campos personalizados.">
+        <select id="atendimento-select" class="select-field"></select>
+      </div>
 
       <form id="atendimento-form" class="atendimento-form">
-        <div id="form-fields" class="form-fields"></div>
+        <div id="form-fields" class="form-fields" data-tooltip="Os campos abaixo se adaptam ao tipo de atendimento escolhido."></div>
         <div class="form-actions">
-          <button type="submit" class="primary-button">Gerar texto SOAP</button>
-          <button type="button" id="copy-soap" class="secondary-button" disabled>Copiar texto</button>
+          <div class="action-tip" data-tooltip="Gere automaticamente o texto SOAP com base nas informações preenchidas.">
+            <button type="submit" class="primary-button">Gerar texto SOAP</button>
+          </div>
+          <div class="action-tip" data-tooltip="Copie o texto gerado para colar no prontuário ou em outro sistema.">
+            <button type="button" id="copy-soap" class="secondary-button" disabled>Copiar texto</button>
+          </div>
         </div>
       </form>
 
-      <div id="soap-output" class="soap-output" aria-live="polite">
+      <div id="soap-output" class="soap-output" aria-live="polite" data-tooltip="Visualize aqui o texto SOAP gerado e confira cada seção com atenção.">
         <p class="placeholder-text">Preencha o formulário e clique em "Gerar texto SOAP" para visualizar o resultado.</p>
       </div>
     </section>
