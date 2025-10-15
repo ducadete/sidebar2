@@ -1,325 +1,395 @@
 document.addEventListener('DOMContentLoaded', () => {
+  // --------- Controle das abas ---------
+  const tabLinks = Array.from(document.querySelectorAll('.tab-link'));
+  const tabContents = Array.from(document.querySelectorAll('.tab-content'));
 
-    // --- LÓGICA GLOBAL PARA CONTROLE DAS ABAS ---
-    const tabLinks = document.querySelectorAll('.tab-link');
-    const tabContents = document.querySelectorAll('.tab-content');
-    tabLinks.forEach(link => {
-        link.addEventListener('click', () => {
-            tabLinks.forEach(l => l.classList.remove('active'));
-            tabContents.forEach(c => c.classList.remove('active'));
-            const tabId = link.getAttribute('data-tab');
-            const activeTabContent = document.getElementById(tabId);
-            link.classList.add('active');
-            activeTabContent.classList.add('active');
-        });
+  tabLinks.forEach(link => {
+    link.addEventListener('click', () => {
+      const tabId = link.getAttribute('data-tab');
+
+      tabLinks.forEach(item => {
+        const isActive = item === link;
+        item.classList.toggle('active', isActive);
+        item.setAttribute('aria-selected', String(isActive));
+      });
+
+      tabContents.forEach(content => {
+        content.classList.toggle('active', content.id === tabId);
+      });
     });
+  });
 
-    // --- BASE DE DADOS DOS PROTOCOLOS ---
-    const protocolosData = [
-        {
-            nome: "CEO - Cirurgia Oral Menor",
-            tema: ["Saúde Bucal", "Procedimentos Cirúrgicos"],
-            resumo: "Este protocolo estabelece os critérios para a realização de cirurgias orais menores no Centro de Especialidades Odontológicas (CEO), definindo os procedimentos de maior complexidade que são elegíveis para o serviço.",
-            descricao: "O escopo abrange a triagem, elegibilidade e encaminhamento de pacientes da Atenção Primária para o CEO para procedimentos como extração de dentes impactados, cirurgias periapicais e remoção de lesões patológicas, garantindo o fluxo correto entre os níveis de atenção.",
-            principaisPontos: ["Priorização de casos com sintomatologia para dentes retidos ou impactados.", "Exclusão de pacientes com condições de saúde que impeçam o procedimento cirúrgico.", "Necessidade de encaminhamento com adequação prévia do meio bucal.", "Exodontias simples e múltiplas de baixa complexidade permanecem na Atenção Básica."],
-            fluxo: ["Paciente é avaliado e tem o meio bucal adequado na Atenção Primária (APS, SOPC, CRMI).", "Se atender aos critérios de inclusão, o paciente é encaminhado ao CEO.", "O CEO realiza o procedimento cirúrgico especializado.", "Acompanhamento pós-operatório é realizado no CEO para casos específicos, como lesões com potencial de recidiva."],
-            cids: ["K01.1", "K04.6", "K04.8", "K10.8"],
-            doencas: ["Dentes Inclusos", "Abscesso periapical com fístula", "Cisto radicular", "Outras doenças especificadas dos maxilares (Tórus)"],
-            idades: "Todas as faixas etárias",
-            anexos: [{ nome: "Formulário de Encaminhamento CEO", url: "#" }],
-            palavrasChave: ["ceo", "dente", "siso", "exodontia", "cirurgia"]
-        },
-        {
-            nome: "CER - Estimulação Precoce",
-            tema: [
-                "Reabilitação",
-                "Atenção Especializada",
-                "Saúde da Criança",
-                "Neurologia Infantil"
-            ],
-            resumo: "Este protocolo destina-se a orientar o encaminhamento de crianças de 0 a 2 anos e 11 meses para o serviço de estimulação precoce, visando favorecer o desenvolvimento de habilidades motoras, sensoriais, cognitivas e de linguagem com a participação da família.",
-            descricao: "O protocolo estabelece o fluxo para que profissionais de saúde de nível superior encaminhem crianças de 0 a 2 anos e 11 meses, residentes em Bauru, para o programa de Estimulação Precoce na rede CER (APAE/SORRI). Detalha os critérios de inclusão e exclusão, o processo de solicitação via prontuário eletrônico com preenchimento de checklists obrigatórios, e o método de regulação de vagas para Neurologia Reabilitação Estimulação Precoce, que são centralizadas e agendadas pela DASCR conforme prioridade e disponibilidade.",
-            principaisPontos: [
-                "Público-alvo exclusivo: Crianças de 0 a 2 anos e 11 meses.",
-                "Objetivo: Promover o desenvolvimento global da criança (motor, sensorial, cognitivo, linguagem) com envolvimento familiar.",
-                "Apenas vagas de Neurologia Reabilitação Estimulação Precoce são reguladas pela DASCR para residentes de Bauru.",
-                "O encaminhamento deve ser feito por profissional de saúde de nível superior, com preenchimento de checklist (anexos 1 a 6) e CID coerente (anexo 7).",
-                "Critérios de exclusão incluem: alta recente (últimos 6 meses), já estar em reabilitação, CIDs fora da lista, TDAH, Transtornos de Aprendizagem, Dislexia e transtornos psiquiátricos ou de fala isolados."
-            ],
-            fluxo: [
-                "1. O profissional de saúde de nível superior identifica a necessidade de reabilitação e avalia os critérios de inclusão.",
-                "2. O profissional preenche a ficha/checklist correspondente ao caso (disponível no site da prefeitura).",
-                "3. É confeccionado o encaminhamento no prontuário eletrônico, inserindo os dados clínicos e o CID pertinente da lista do Anexo 7.",
-                "4. O encaminhamento e o checklist são impressos e entregues ao responsável, que deve aguardar o contato da unidade de saúde.",
-                "5. Os encaminhamentos são submetidos à regulação médica da DASCR/SMS.",
-                "6. A DASCR agenda as vagas disponibilizadas pela APAE ou SORRI, seguindo critérios de prioridade e tempo de espera.",
-                "7. A unidade solicitante é comunicada do agendamento via e-mail institucional para que informe ao paciente."
-            ],
-            cids: [
-                "A504", "A521", "A811", "A812", "A818", "E740", "E750", "E751", "F82", "F83", "F840", "F841", "F842", "F843", "F844", "F848", "F849", "G09", "G110", "G119", "G120", "G121", "G122", "G128", "G129", "G230", "G239", "G360", "G361", "G368", "G369", "G404", "G540", "G545", "G609", "G610", "G619", "G622", "G710", "G711", "G712", "G713", "G800", "G809", "G810", "G811", "G819", "G820", "G821", "G822", "G823", "G824", "G825", "G830", "G831", "G832", "G833", "G834", "G839", "G900", "G901", "G902", "G910", "G911", "G912", "G913", "G918", "G919", "G933", "G934", "G935", "G938", "G959", "I672", "I673", "I674", "I675", "I690", "I694", "I698", "M339", "P140", "P219", "P284", "P910", "P941", "P942", "Q02", "Q03", "Q038", "Q039", "Q070", "Q079", "Q281", "Q282", "Q750", "Q760", "Q850", "Q860", "Q900", "R258", "R260", "R262", "R268", "R270", "R278"
-            ],
-            "doencas": [
-                "Neurossífilis Congênita Tardia (Neurossífilis Juvenil)",
-                "Neurossífilis sintomática",
-                "Panencefalite esclerosante subaguda",
-                "Leucoencefalopatia multifocal progressiva",
-                "Outras infecções por vírus atípicos do sistema nervoso central",
-                "Doença de depósito de glicogênio",
-                "Gangliosidose GM2",
-                "Outras gangliosidoses",
-                "Transtorno específico do desenvolvimento motor",
-                "Transtornos específicos misto do desenvolvimento",
-                "Autismo infantil",
-                "Autismo atípico",
-                "Síndrome de Rett",
-                "Outro transtorno desintegrativo da infância",
-                "Transtorno com hipercinesia associada a retardo mental e a movimentos estereotipados",
-                "Outros transtornos globais do desenvolvimento",
-                "Transtornos globais não especificados do desenvolvimento",
-                "Sequelas de doenças inflamatórias do sistema nervoso central",
-                "Ataxia congênita não-progressiva",
-                "Ataxia hereditária não especificada",
-                "Atrofia muscular espinal infantil tipo I (Werdnig-Hoffman)",
-                "Outras atrofias musculares espinais hereditárias",
-                "Doença do neurônio motor",
-                "Outras atrofias musculares espinais e síndromes musculares correlatas",
-                "Atrofia muscular espinal não especificada",
-                "Doença de Hallervorden-Spatz",
-                "Doença degenerativa dos gânglios da base não especificada",
-                "Neuromielite óptica (Doença de Devic)",
-                "Leucoencefalite hemorrágica aguda e subaguda (Hurst)",
-                "Outras desmielinizações disseminadas agudas especificadas",
-                "Desmielinização disseminada aguda não especificada",
-                "Outras epilepsias e síndromes epilépticas generalizadas",
-                "Transtornos do plexo braquial",
-                "Amiotrofia nevrálgica",
-                "Neuropatia hereditária e idiopática não especificada",
-                "Síndrome de Guillain-Barré",
-                "Polineuropatia inflamatória não especificada",
-                "Polineuropatia devida a outros agentes tóxicos",
-                "Distrofia muscular",
-                "Transtornos miotônicos",
-                "Miopatias congênitas",
-                "Miopatia mitocondrial não classificada em outra parte",
-                "Paralisia cerebral espástica",
-                "Paralisia cerebral infantil não especificada",
-                "Hemiplegia flácida",
-                "Hemiplegia espástica",
-                "Hemiplegia não especificada",
-                "Paraplegia flácida",
-                "Paraplegia espástica",
-                "Paraplegia não especificada",
-                "Tetraplegia flácida",
-                "Tetraplegia espástica",
-                "Tetraplegia não especificada",
-                "Diplegia dos membros superiores",
-                "Monoplegia do membro inferior",
-                "Monoplegia do membro superior",
-                "Monoplegia não especificada",
-                "Síndrome da cauda equina",
-                "Síndrome paralítica não especificada",
-                "Neuropatia autonômica periférica idiopática",
-                "Disautonomia familiar (Síndrome de Riley-Day)",
-                "Síndrome de Horner",
-                "Hidrocefalia comunicante",
-                "Hidrocefalia obstrutiva",
-                "Hidrocefalia de pressão normal",
-                "Hidrocefalia pós-traumática não especificada",
-                "Outras formas de hidrocefalia",
-                "Hidrocefalia não especificada",
-                "Síndrome da fadiga pós-viral",
-                "Encefalopatia não especificada",
-                "Compressão do encéfalo",
-                "Transtornos especificados do encéfalo",
-                "Doença não especificada da medula espinal",
-                "Aterosclerose cerebral",
-                "Leucoencefalopatia vascular progressiva",
-                "Encefalopatia hipertensiva",
-                "Doença de Moyamoya",
-                "Sequelas de hemorragia subaracnóidea",
-                "Sequelas de acidente vascular cerebral não especificado como hemorrágico ou isquêmico",
-                "Doenças cerebrovasculares e das não especificadas",
-                "Dermatopoliomiosite não especificada",
-                "Paralisia de Erb devida a traumatismo de parto",
-                "Asfixia ao nascer não especificada",
-                "Outras apneias do recém-nascido",
-                "Isquemia cerebral neonatal",
-                "Hipertonia congênita",
-                "Hipotonia congênita",
-                "Microcefalia",
-                "Hidrocefalia congênita",
-                "Outra hidrocefalia congênita",
-                "Hidrocefalia congênita não especificada",
-                "Síndrome de Arnold-Chiari",
-                "Malformação congênita não especificada do sistema nervoso",
-                "Outras malformações dos vasos pré-cerebrais",
-                "Malformação arteriovenosa dos vasos cerebrais",
-                "Craniossinostose",
-                "Espinha bífida oculta",
-                "Neurofibromatose (não-maligna)",
-                "Síndrome fetal alcoólico (dismórfico)",
-                "Trissomia 21, não-disjunção meiótica",
-                "Outros movimentos involuntários anormais e os não especificados",
-                "Marcha atáxica",
-                "Dificuldade para andar não classificada em outra parte",
-                "Outras anormalidades da marcha e da mobilidade e as não especificadas",
-                "Ataxia não especificada",
-                "Outros distúrbios da coordenação"
-            ],
-            "idades": "0 a 2 anos e 11 meses",
-            anexos: [
-                {
-                    "nome": "Anexos 1 a 6 - Ficha/Checklist",
-                    "url": "#"
-                },
-                {
-                    "nome": "Anexo 7 - Lista de CIDs",
-                    "url": "#"
-                },
-                {
-                    "nome": "M-CHAT-R",
-                    "url": "#"
-                }
-            ],
-            palavrasChave: [
-                "estimulação precoce",
-                "reabilitação infantil",
-                "desenvolvimento infantil",
-                "cer",
-                "apae",
-                "sorri",
-                "neurologia",
-                "regulação",
-                "protocolo",
-                "bauru"
-            ]
-        }
-    ];
+  // --------- Dados de protocolos ---------
+  const protocolosData = [
+    {
+      nome: 'CEO - Cirurgia Oral Menor',
+      resumo:
+        'Critérios de encaminhamento e fluxo assistencial para cirurgias orais de maior complexidade no CEO.',
+      pontosChave: [
+        'Priorizar casos sintomáticos com dentes inclusos ou impactados.',
+        'Garantir adequação do meio bucal antes do encaminhamento.',
+        'Exodontias simples permanecem na Atenção Básica.'
+      ],
+      fluxo: [
+        'Avaliação e adequação do meio bucal na APS.',
+        'Encaminhamento com critérios preenchidos e documentação anexada.',
+        'Procedimento especializado realizado no CEO.',
+        'Retorno para acompanhamento pós-operatório quando indicado.'
+      ],
+      cids: ['K01.1', 'K04.6', 'K04.8', 'K10.8'],
+      temas: ['Saúde Bucal', 'Procedimentos Cirúrgicos']
+    },
+    {
+      nome: 'CER - Estimulação Precoce',
+      resumo:
+        'Fluxo de regulação e critérios para encaminhar crianças de 0 a 2 anos e 11 meses ao programa de estimulação precoce.',
+      pontosChave: [
+        'Encaminhamento exclusivo para residentes com checklist completo.',
+        'Exclusão de pacientes já em reabilitação ou com alta recente.',
+        'DASCR realiza a regulação das vagas disponíveis na rede conveniada.'
+      ],
+      fluxo: [
+        'Profissional de saúde avalia critérios clínicos.',
+        'Preenchimento dos checklists e anexos obrigatórios.',
+        'Solicitação registrada no prontuário com CID elegível.',
+        'Regulação médica agenda o atendimento conforme prioridade.'
+      ],
+      cids: ['F82', 'F84.0', 'G80.0', 'Q02'],
+      temas: ['Reabilitação', 'Saúde da Criança']
+    },
+    {
+      nome: 'Pré-Natal de Risco Habitual',
+      resumo: 'Etapas essenciais do acompanhamento pré-natal de baixo risco na APS.',
+      pontosChave: [
+        'Primeira consulta com anamnese completa e solicitação de exames básicos.',
+        'Acompanhamento mensal até a 28ª semana e quinzenal até a 36ª.',
+        'Acolher sinais de alerta para encaminhamento ao alto risco.'
+      ],
+      fluxo: [
+        'Captação precoce e confirmação da gestação.',
+        'Consultas de enfermagem e medicina alternadas.',
+        'Educação em saúde, atualização vacinal e planejamento do parto.',
+        'Encaminhamento para maternidade de referência.'
+      ],
+      cids: ['Z34.0', 'Z34.8'],
+      temas: ['Saúde da Mulher', 'Pré-Natal']
+    }
+  ];
 
-    // --- LÓGICA PARA A ABA DE PROTOCOLOS COM TOGGLE ---
-    const protocoloSearchBar = document.getElementById('protocolo-search-bar');
-    const protocolosListContainer = document.getElementById('protocolos-list');
-    const protocoloContentDisplay = document.getElementById('protocolo-content-display');
+  const protocoloSearchInput = document.getElementById('protocolo-search');
+  const protocolosListContainer = document.getElementById('protocolos-list');
+  const protocoloContentDisplay = document.getElementById('protocolo-content-display');
 
-    function renderProtocols(protocolosParaRenderizar) {
-        protocolosListContainer.innerHTML = '';
-        if (protocolosParaRenderizar.length === 0) {
-            protocolosListContainer.innerHTML = '<p class="placeholder-text">Nenhum protocolo encontrado.</p>';
-            return;
-        }
-        protocolosParaRenderizar.forEach(protocolo => {
-            const protocoloItem = document.createElement('div');
-            protocoloItem.className = 'protocolo-item';
-            protocoloItem.textContent = protocolo.nome;
-            protocoloItem.dataset.nome = protocolo.nome;
-            protocolosListContainer.appendChild(protocoloItem);
-        });
+  function renderProtocolList(items) {
+    protocolosListContainer.innerHTML = '';
+
+    if (!items.length) {
+      const emptyState = document.createElement('p');
+      emptyState.className = 'placeholder-text';
+      emptyState.textContent = 'Nenhum protocolo encontrado para a busca informada.';
+      protocolosListContainer.appendChild(emptyState);
+      return;
     }
 
-    function displayProtocoloDetalhado(protocolo) { /* ...código da função... */ } // A função que cria o HTML detalhado permanece a mesma.
-
-    protocoloSearchBar.addEventListener('input', (event) => { /* ...código da busca... */ }); // O código da busca permanece o mesmo.
-
-    protocolosListContainer.addEventListener('click', (event) => {
-        const target = event.target;
-        if (target.classList.contains('protocolo-item')) {
-            const isActive = target.classList.contains('active');
-
-            // Retrai qualquer item que já esteja ativo
-            document.querySelectorAll('.protocolo-item.active').forEach(item => {
-                item.classList.remove('active');
-            });
-
-            // Se o item clicado não estava ativo, ele se torna o novo item ativo
-            if (!isActive) {
-                target.classList.add('active');
-                const nome = target.dataset.nome;
-                const protocoloEncontrado = protocolosData.find(p => p.nome === nome);
-                if (protocoloEncontrado) {
-                    displayProtocoloDetalhado(protocoloEncontrado);
-                }
-            } else {
-                // Se já estava ativo, apenas retrai, limpando a tela de conteúdo
-                protocoloContentDisplay.innerHTML = '<p class="placeholder-text">Selecione um protocolo para ver o conteúdo.</p>';
-            }
-        }
+    items.forEach(protocol => {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'list-item';
+      button.textContent = `${protocol.nome}`;
+      button.dataset.nome = protocol.nome;
+      button.setAttribute('aria-label', `Abrir detalhes do protocolo ${protocol.nome}`);
+      protocolosListContainer.appendChild(button);
     });
+  }
 
+  function renderProtocolDetails(protocol) {
+    const detalhes = document.createElement('article');
+    detalhes.className = 'protocolo-detalhe';
 
-    // --- BASE DE DADOS E LÓGICA PARA ABA ASSISTENTE DE CONSULTA COM TOGGLE ---
-    const consultaSkeletons = { "Puericultura": { "2 Meses": "...", "4 Meses": "..." }, "Pré-Natal": { "1º Trimestre": "..." } };
-    const topicsContainer = document.getElementById('topics-container');
-    const contentDisplay = document.getElementById('content-display');
+    const header = document.createElement('div');
+    header.innerHTML = `
+      <h3>${protocol.nome}</h3>
+      <p><strong>Temas:</strong> ${protocol.temas.join(', ')}</p>
+      <p><strong>CIDs associados:</strong> ${protocol.cids.join(', ')}</p>
+    `;
 
-    function renderTopics() { /* ...código de renderTopics... */ }
+    const resumo = document.createElement('p');
+    resumo.innerHTML = `<strong>Resumo:</strong> ${protocol.resumo}`;
 
-    topicsContainer.addEventListener('click', (event) => {
-        const target = event.target;
+    const pontos = document.createElement('div');
+    pontos.innerHTML = `
+      <strong>Pontos-chave</strong>
+      <ul>${protocol.pontosChave.map(item => `<li>${item}</li>`).join('')}</ul>
+    `;
 
-        // Lógica para o Tópico Principal (ex: Puericultura)
-        if (target.classList.contains('topic-button')) {
-            const subtopics = target.nextElementSibling;
-            const isActive = target.classList.contains('active');
+    const fluxo = document.createElement('div');
+    fluxo.innerHTML = `
+      <strong>Fluxo recomendado</strong>
+      <ol>${protocol.fluxo.map(item => `<li>${item}</li>`).join('')}</ol>
+    `;
 
-            // Fecha todos os outros tópicos
-            document.querySelectorAll('.topic-button').forEach(button => {
-                if (button !== target) {
-                    button.classList.remove('active');
-                    button.nextElementSibling.style.display = 'none';
-                }
-            });
+    detalhes.append(header, resumo, pontos, fluxo);
+    protocoloContentDisplay.innerHTML = '';
+    protocoloContentDisplay.appendChild(detalhes);
+  }
 
-            // Alterna (toggle) o tópico clicado
-            if (isActive) {
-                target.classList.remove('active');
-                subtopics.style.display = 'none';
-            } else {
-                target.classList.add('active');
-                subtopics.style.display = 'block';
-            }
-        }
+  protocolosListContainer.addEventListener('click', event => {
+    const target = event.target;
+    if (!(target instanceof HTMLElement) || !target.classList.contains('list-item')) return;
 
-        // Lógica para o Sub-tópico (ex: 2 Meses)
-        if (target.classList.contains('subtopic-button')) {
-            const isActive = target.classList.contains('active');
+    document.querySelectorAll('#protocolos-list .list-item').forEach(item => item.classList.remove('active'));
+    target.classList.add('active');
 
-            // Remove a seleção de todos os sub-tópicos
-            document.querySelectorAll('.subtopic-button').forEach(button => button.classList.remove('active'));
-
-            if (!isActive) {
-                target.classList.add('active'); // Marca o sub-tópico clicado
-                const topic = target.dataset.topic;
-                const subtopic = target.dataset.subtopic;
-                contentDisplay.innerHTML = `<p>${consultaSkeletons[topic][subtopic]}</p>`;
-            } else {
-                // Se já estava ativo, limpa a tela de conteúdo
-                contentDisplay.innerHTML = '<p class="placeholder-text">Selecione um tópico para ver o esqueleto.</p>';
-            }
-        }
-    });
-
-    // --- INICIALIZAÇÃO E CÓDIGOS NÃO MODIFICADOS ---
-    // (Colei o resto do código aqui para garantir que esteja completo)
-
-    function fullDisplayProtocoloDetalhado(protocolo) {
-        let html = `<div class="protocolo-detalhe"><h2>${protocolo.nome}</h2><span class="tema-badge">${protocolo.tema.join('; ')}</span><h4>Resumo</h4><p>${protocolo.resumo}</p><h4>Descrição</h4><p>${protocolo.descricao}</p><h4>Pontos Principais</h4><ul>${protocolo.principaisPontos.map(ponto => `<li>${ponto}</li>`).join('')}</ul><h4>Fluxo do Protocolo</h4><ul>${protocolo.fluxo.map(passo => `<li>${passo}</li>`).join('')}</ul><h4>Faixa Etária e Doenças/CIDs</h4><p><strong>Idades:</strong> ${protocolo.idades}</p><ul>${protocolo.doencas.map((doenca, index) => `<li><strong>${doenca}</strong> (${protocolo.cids[index]})</li>`).join('')}</ul>`;
-        if (protocolo.anexos && protocolo.anexos.length > 0) { html += `<h4>Anexos</h4><div class="anexos-container">${protocolo.anexos.map(anexo => `<a href="${anexo.url}" target="_blank" class="anexo-link">${anexo.nome}</a>`).join('')}</div>`; }
-        html += `</div>`;
-        protocoloContentDisplay.innerHTML = html;
+    const protocoloSelecionado = protocolosData.find(item => item.nome === target.dataset.nome);
+    if (protocoloSelecionado) {
+      renderProtocolDetails(protocoloSelecionado);
     }
-    // Reatribuindo para a função correta
-    displayProtocoloDetalhado = fullDisplayProtocoloDetalhado;
+  });
 
-    protocoloSearchBar.addEventListener('input', (event) => {
-        const termoBusca = event.target.value.toLowerCase().trim();
-        if (!termoBusca) { renderProtocols(protocolosData); return; }
-        const resultados = protocolosData.filter(p => p.nome.toLowerCase().includes(termoBusca) || p.tema.some(t => t.toLowerCase().includes(termoBusca)) || p.cids.some(cid => cid.toLowerCase().includes(termoBusca)) || p.doencas.some(d => d.toLowerCase().includes(termoBusca)) || p.palavrasChave.some(kw => kw.toLowerCase().includes(termoBusca)));
-        renderProtocols(resultados);
+  protocoloSearchInput.addEventListener('input', event => {
+    const termo = event.target.value.toLowerCase().trim();
+    if (!termo) {
+      renderProtocolList(protocolosData);
+      protocoloContentDisplay.innerHTML = '<p class="placeholder-text">Selecione um protocolo para ver os detalhes.</p>';
+      return;
+    }
+
+    const filtrados = protocolosData.filter(protocol => {
+      const campos = [
+        protocol.nome,
+        protocol.resumo,
+        ...protocol.pontosChave,
+        ...protocol.fluxo,
+        ...protocol.cids,
+        ...protocol.temas
+      ];
+      return campos.some(valor => valor.toLowerCase().includes(termo));
     });
 
-    function fullRenderTopics() { topicsContainer.innerHTML = ''; for (const topic in consultaSkeletons) { const topicButton = document.createElement('button'); topicButton.className = 'topic-button'; topicButton.textContent = topic; topicsContainer.appendChild(topicButton); const subtopicsContainer = document.createElement('div'); subtopicsContainer.style.display = 'none'; for (const subtopic in consultaSkeletons[topic]) { const subtopicButton = document.createElement('button'); subtopicButton.className = 'subtopic-button'; subtopicButton.textContent = subtopic; subtopicButton.dataset.topic = topic; subtopicButton.dataset.subtopic = subtopic; subtopicsContainer.appendChild(subtopicButton); } topicsContainer.appendChild(subtopicsContainer); } }
-    renderTopics = fullRenderTopics;
+    renderProtocolList(filtrados);
+    protocoloContentDisplay.innerHTML = '<p class="placeholder-text">Selecione um protocolo para ver os detalhes.</p>';
+  });
 
-    renderProtocols(protocolosData);
-    renderTopics();
+  renderProtocolList(protocolosData);
+
+  // --------- Guia de Consulta com geração SOAP ---------
+  const atendimentos = {
+    'Consulta Clínica Geral': [
+      {
+        name: 'queixaPrincipal',
+        label: 'Queixa principal',
+        placeholder: 'Paciente refere dor torácica há 2 dias... ',
+        section: 'S'
+      },
+      {
+        name: 'historia',
+        label: 'História da doença atual',
+        placeholder: 'Relatar evolução, fatores de melhora/piora, tratamentos prévios...',
+        section: 'S'
+      },
+      {
+        name: 'sinaisVitais',
+        label: 'Sinais vitais e dados objetivos',
+        placeholder: 'PA 120x80 mmHg, FC 78 bpm, SpO₂ 97%... ',
+        section: 'O'
+      },
+      {
+        name: 'exameFisico',
+        label: 'Exame físico',
+        placeholder: 'Descrever achados relevantes por sistemas...',
+        section: 'O'
+      },
+      {
+        name: 'hipoteses',
+        label: 'Hipóteses diagnósticas',
+        placeholder: 'Hipótese principal e diferenciais...',
+        section: 'A'
+      },
+      {
+        name: 'plano',
+        label: 'Plano terapêutico',
+        placeholder: 'Condutas, exames solicitados, medicações...',
+        section: 'P'
+      },
+      {
+        name: 'orientacoes',
+        label: 'Orientações e acompanhamento',
+        placeholder: 'Educação em saúde, sinais de alarme, retorno...',
+        section: 'P'
+      }
+    ],
+    'Puericultura': [
+      {
+        name: 'motivoConsulta',
+        label: 'Motivo da consulta',
+        placeholder: 'Acompanhamento de rotina, dúvidas da família...',
+        section: 'S'
+      },
+      {
+        name: 'alimentacaoSono',
+        label: 'Alimentação e sono',
+        placeholder: 'Padrões alimentares, aleitamento, acordares noturnos...',
+        section: 'S'
+      },
+      {
+        name: 'desenvolvimento',
+        label: 'Marcos do desenvolvimento',
+        placeholder: 'Sustenta a cabeça, rola, balbucia... ',
+        section: 'O'
+      },
+      {
+        name: 'exameFisicoPediatrico',
+        label: 'Exame físico',
+        placeholder: 'Peso, estatura, perímetro cefálico, achados gerais...',
+        section: 'O'
+      },
+      {
+        name: 'avaliacaoCrescimento',
+        label: 'Avaliação do crescimento e riscos',
+        placeholder: 'Percentis, curva de crescimento, fatores de risco identificados...',
+        section: 'A'
+      },
+      {
+        name: 'planoPuericultura',
+        label: 'Plano e orientações',
+        placeholder: 'Vacinas, suplementações, orientações para família, retorno...',
+        section: 'P'
+      }
+    ],
+    'Pré-Natal': [
+      {
+        name: 'queixaPrenatal',
+        label: 'Queixa ou motivo da consulta',
+        placeholder: 'Acompanhamento gestacional, sintomas atuais...',
+        section: 'S'
+      },
+      {
+        name: 'antecedentesObstetricos',
+        label: 'Antecedentes obstétricos',
+        placeholder: 'Gestações prévias, partos, intercorrências...',
+        section: 'S'
+      },
+      {
+        name: 'avaliacaoClinica',
+        label: 'Avaliação clínica e obstétrica',
+        placeholder: 'PA, altura uterina, BCF, edema, exames recentes...',
+        section: 'O'
+      },
+      {
+        name: 'riscoGestacional',
+        label: 'Estratificação de risco',
+        placeholder: 'Classificação do risco gestacional e justificativas...',
+        section: 'A'
+      },
+      {
+        name: 'condutasPrenatal',
+        label: 'Plano e condutas',
+        placeholder: 'Solicitação de exames, suplementação, encaminhamentos...',
+        section: 'P'
+      },
+      {
+        name: 'orientacoesPrenatal',
+        label: 'Orientações e sinais de alerta',
+        placeholder: 'Educação em saúde, sinais de alarme, retorno programado...',
+        section: 'P'
+      }
+    ]
+  };
+
+  const atendimentoSelect = document.getElementById('atendimento-select');
+  const formFieldsContainer = document.getElementById('form-fields');
+  const atendimentoForm = document.getElementById('atendimento-form');
+  const soapOutput = document.getElementById('soap-output');
+  const copyButton = document.getElementById('copy-soap');
+
+  function popularSelect() {
+    Object.keys(atendimentos).forEach((tipo, index) => {
+      const option = document.createElement('option');
+      option.value = tipo;
+      option.textContent = tipo;
+      if (index === 0) option.selected = true;
+      atendimentoSelect.appendChild(option);
+    });
+  }
+
+  function renderFormFields(tipo) {
+    formFieldsContainer.innerHTML = '';
+    const campos = atendimentos[tipo];
+
+    campos.forEach(campo => {
+      const wrapper = document.createElement('div');
+      wrapper.className = 'field-group';
+
+      const label = document.createElement('label');
+      label.htmlFor = campo.name;
+      label.textContent = campo.label;
+
+      const textarea = document.createElement('textarea');
+      textarea.id = campo.name;
+      textarea.name = campo.name;
+      textarea.placeholder = campo.placeholder;
+      textarea.dataset.section = campo.section;
+
+      wrapper.append(label, textarea);
+      formFieldsContainer.appendChild(wrapper);
+    });
+  }
+
+  atendimentoSelect.addEventListener('change', event => {
+    const tipo = event.target.value;
+    renderFormFields(tipo);
+    soapOutput.innerHTML = '<p class="placeholder-text">Preencha o formulário e clique em "Gerar texto SOAP" para visualizar o resultado.</p>';
+    copyButton.disabled = true;
+  });
+
+  atendimentoForm.addEventListener('submit', event => {
+    event.preventDefault();
+
+    const campos = Array.from(formFieldsContainer.querySelectorAll('textarea'));
+    const secoes = { S: [], O: [], A: [], P: [] };
+
+    campos.forEach(textarea => {
+      const valor = textarea.value.trim();
+      if (!valor) return;
+
+      const section = textarea.dataset.section;
+      const label = formFieldsContainer.querySelector(`label[for="${textarea.id}"]`).textContent;
+      secoes[section].push(`${label}: ${valor}`);
+    });
+
+    const soapText = [
+      `S: ${secoes.S.join(' | ') || 'Sem dados informados.'}`,
+      `O: ${secoes.O.join(' | ') || 'Sem dados informados.'}`,
+      `A: ${secoes.A.join(' | ') || 'Sem dados informados.'}`,
+      `P: ${secoes.P.join(' | ') || 'Sem dados informados.'}`
+    ].join('\n\n');
+
+    soapOutput.textContent = soapText;
+    copyButton.disabled = !soapText.trim();
+  });
+
+  copyButton.addEventListener('click', async () => {
+    const texto = soapOutput.textContent?.trim();
+    if (!texto) return;
+
+    try {
+      await navigator.clipboard.writeText(texto);
+      copyButton.textContent = 'Copiado!';
+      copyButton.disabled = true;
+      setTimeout(() => {
+        copyButton.textContent = 'Copiar texto';
+        copyButton.disabled = false;
+      }, 1500);
+    } catch (error) {
+      console.error('Não foi possível copiar o texto', error);
+      copyButton.textContent = 'Erro ao copiar';
+      setTimeout(() => {
+        copyButton.textContent = 'Copiar texto';
+        copyButton.disabled = false;
+      }, 2000);
+    }
+  });
+
+  popularSelect();
+  renderFormFields(atendimentoSelect.value);
 });

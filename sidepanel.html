@@ -1,45 +1,58 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="sidepanel.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Assistente USF</title>
+  <link rel="stylesheet" href="sidepanel.css">
 </head>
 <body>
-    <div class="container">
-        <header class="app-header">
-            <h2>Assistente USF</h2>
-        </header>
+  <div class="container">
+    <header class="app-header">
+      <h1>Assistente USF</h1>
+      <p>Protocolos e geração de texto SOAP em um único painel.</p>
+    </header>
 
-        <div class="tab-buttons">
-            <button class="tab-link active" data-tab="tab-protocolos">Protocolos</button>
-            <button class="tab-link" data-tab="tab-assistente">Assistente de Consulta</button>
-        </div>
-
-        <div id="tab-protocolos" class="tab-content active">
-            <h4>Busca Inteligente de Protocolos</h4>
-            <input type="text" id="protocolo-search-bar" class="search-bar" placeholder="Buscar por nome, CID, palavra-chave...">
-            
-            <div id="protocolos-list" class="item-list">
-                </div>
-            <hr>
-            <div id="protocolo-content-display" class="content-display-area">
-                <p class="placeholder-text">Selecione um protocolo acima para ver o conteúdo.</p>
-            </div>
-        </div>
-
-        <div id="tab-assistente" class="tab-content">
-            <h4>Esqueletos de Consulta</h4>
-            <input type="text" id="assistente-search-bar" class="search-bar" placeholder="Buscar tópico...">
-            
-            <div id="topics-container" class="item-list">
-                </div>
-            <hr>
-            <div id="content-display" class="content-display-area">
-                <p class="placeholder-text">Selecione um tópico para ver o esqueleto da consulta.</p>
-            </div>
-        </div>
-
+    <div class="tab-buttons" role="tablist">
+      <button class="tab-link active" data-tab="tab-protocolos" role="tab" aria-selected="true">Protocolos</button>
+      <button class="tab-link" data-tab="tab-guia" role="tab" aria-selected="false">Guia de Consulta</button>
     </div>
-    <script src="sidepanel.js"></script>
+
+    <section id="tab-protocolos" class="tab-content active" role="tabpanel">
+      <div class="tab-header">
+        <h2>Protocolos</h2>
+        <p class="tab-description">Busque e visualize protocolos clínicos resumidos.</p>
+      </div>
+      <input type="text" id="protocolo-search" class="search-bar" placeholder="Buscar por nome, tema ou CID">
+      <div id="protocolos-list" class="item-list" aria-live="polite"></div>
+      <div id="protocolo-content-display" class="content-display-area">
+        <p class="placeholder-text">Selecione um protocolo para ver os detalhes.</p>
+      </div>
+    </section>
+
+    <section id="tab-guia" class="tab-content" role="tabpanel">
+      <div class="tab-header">
+        <h2>Guia de Consulta</h2>
+        <p class="tab-description">Escolha o tipo de atendimento, preencha os dados e gere um texto no formato SOAP.</p>
+      </div>
+
+      <label for="atendimento-select" class="field-label">Tipo de atendimento</label>
+      <select id="atendimento-select" class="select-field"></select>
+
+      <form id="atendimento-form" class="atendimento-form">
+        <div id="form-fields" class="form-fields"></div>
+        <div class="form-actions">
+          <button type="submit" class="primary-button">Gerar texto SOAP</button>
+          <button type="button" id="copy-soap" class="secondary-button" disabled>Copiar texto</button>
+        </div>
+      </form>
+
+      <div id="soap-output" class="soap-output" aria-live="polite">
+        <p class="placeholder-text">Preencha o formulário e clique em "Gerar texto SOAP" para visualizar o resultado.</p>
+      </div>
+    </section>
+  </div>
+
+  <script src="sidepanel.js"></script>
 </body>
 </html>
