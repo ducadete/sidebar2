@@ -237,31 +237,134 @@ body {
 .form-fields {
   display: flex;
   flex-direction: column;
+  gap: 16px;
+}
+
+.form-section {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
   gap: 12px;
+  background: rgba(15, 23, 42, 0.015);
 }
 
-.field-group label {
-  display: block;
+.form-section legend {
   font-weight: 600;
-  margin-bottom: 4px;
+  font-size: 15px;
+  padding: 0 6px;
 }
 
-.field-group textarea,
-.field-group input {
+.field-row {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.field-row label,
+.textarea-label,
+.option-group-title {
+  font-weight: 600;
+  color: var(--text);
+}
+
+.field-row select,
+.field-row input,
+.form-section textarea {
   width: 100%;
   padding: 10px 12px;
   border-radius: 10px;
   border: 1px solid var(--border);
+  background: #fff;
   resize: vertical;
+}
+
+.form-section textarea {
   min-height: 70px;
 }
 
-.field-group textarea:focus,
-.field-group input:focus,
+.textarea-small {
+  min-height: 56px;
+}
+
+.textarea-medium {
+  min-height: 96px;
+}
+
+.field-row select:focus,
+.field-row input:focus,
+.form-section textarea:focus,
 .select-field:focus {
   outline: none;
   border-color: var(--primary);
   box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.15);
+}
+
+.option-group-title {
+  margin-top: 4px;
+}
+
+.option-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.option {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 6px 12px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: border 0.2s ease, background 0.2s ease;
+}
+
+.option input {
+  accent-color: var(--primary);
+}
+
+.option:hover,
+.option:focus-within {
+  border-color: var(--primary);
+  background: rgba(0, 102, 204, 0.1);
+}
+
+.inline-fields {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 10px;
+}
+
+.inline-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-weight: 600;
+}
+
+.inline-field input {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 8px 10px;
+  background: #fff;
+}
+
+.inline-field input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.15);
+}
+
+.option-list select,
+.option-list textarea,
+.option-list input[type="text"],
+.option-list input[type="number"] {
+  width: 100%;
 }
 
 .form-actions {
@@ -348,5 +451,27 @@ body {
   .content-display-area,
   .soap-output {
     background: rgba(15, 23, 42, 0.35);
+  }
+
+  .form-section {
+    background: rgba(15, 23, 42, 0.4);
+  }
+
+  .field-row select,
+  .field-row input,
+  .form-section textarea,
+  .inline-field input {
+    background: rgba(15, 23, 42, 0.55);
+    color: var(--text);
+  }
+
+  .option {
+    background: rgba(15, 23, 42, 0.55);
+    border-color: var(--border);
+  }
+
+  .option:hover,
+  .option:focus-within {
+    background: rgba(37, 99, 235, 0.2);
   }
 }
