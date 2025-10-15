@@ -1,0 +1,256 @@
+<fieldset class="form-section" data-section="S" data-label="Motivo e sintomas atuais">
+  <legend>Motivo e sintomas atuais</legend>
+  <div class="field-row">
+    <label for="pn-motivo">Motivo da visita</label>
+    <select id="pn-motivo" data-display="Motivo da visita">
+      <option value="">Selecione...</option>
+      <option>Consulta de rotina</option>
+      <option>Sintomas intercorrentes</option>
+      <option>Solicitação de exames</option>
+      <option>Avaliação de sinais de alerta</option>
+      <option>Orientação específica</option>
+    </select>
+  </div>
+  <div class="field-row">
+    <label for="pn-idade-gestacional">Idade gestacional (semanas)</label>
+    <input id="pn-idade-gestacional" type="number" min="4" max="42" data-display="Idade gestacional" data-unit="semanas" placeholder="28">
+  </div>
+  <p class="option-group-title">Sintomas referidos</p>
+  <div class="option-list" role="group" aria-label="Sintomas referidos">
+    <label class="option">
+      <input type="checkbox" data-display="Sem sintomas no momento">
+      <span>Sem sintomas</span>
+    </label>
+    <label class="option">
+      <input type="checkbox" data-display="Náuseas/vômitos">
+      <span>Náuseas/vômitos</span>
+    </label>
+    <label class="option">
+      <input type="checkbox" data-display="Cefaleia e escotomas">
+      <span>Cefaleia/escotomas</span>
+    </label>
+    <label class="option">
+      <input type="checkbox" data-display="Dor abdominal ou contrações">
+      <span>Dor abdominal/contrações</span>
+    </label>
+    <label class="option">
+      <input type="checkbox" data-display="Sangramento vaginal">
+      <span>Sangramento vaginal</span>
+    </label>
+    <label class="option">
+      <input type="checkbox" data-display="Redução de movimentos fetais">
+      <span>Redução de movimentos fetais</span>
+    </label>
+  </div>
+  <label for="pn-sintomas" class="textarea-label">Relato detalhado</label>
+  <textarea id="pn-sintomas" class="textarea-medium" data-display="Relato de sintomas" placeholder="Paciente refere..."></textarea>
+</fieldset>
+
+<fieldset class="form-section" data-section="S" data-label="Antecedentes e fatores maternos">
+  <legend>Antecedentes e fatores maternos</legend>
+  <div class="field-row">
+    <label for="pn-gestacoes">Gestações prévias</label>
+    <select id="pn-gestacoes" data-display="Gestações prévias">
+      <option value="">Selecione...</option>
+      <option>Primigesta</option>
+      <option>Multigesta sem intercorrências</option>
+      <option>Com aborto prévio</option>
+      <option>Parto prematuro prévio</option>
+      <option>Cesáreas anteriores</option>
+    </select>
+  </div>
+  <div class="field-row">
+    <label for="pn-condicoes">Condições associadas</label>
+    <select id="pn-condicoes" multiple size="6" data-display="Condições maternas">
+      <option>Hipertensão crônica</option>
+      <option>Diabetes pré-gestacional</option>
+      <option>Doença autoimune</option>
+      <option>Tabagismo</option>
+      <option>Uso de álcool/drogas</option>
+      <option>IMC &gt; 30 kg/m²</option>
+      <option>Idade materna &gt;= 35 anos</option>
+      <option>Nenhuma condição relatada</option>
+    </select>
+  </div>
+  <label for="pn-antecedentes" class="textarea-label">Antecedentes relevantes</label>
+  <textarea id="pn-antecedentes" class="textarea-small" data-display="Antecedentes relevantes" placeholder="Histórico obstétrico, cirurgias, alergias..."></textarea>
+</fieldset>
+
+<fieldset class="form-section" data-section="O" data-label="Avaliação clínica e obstétrica">
+  <legend>Avaliação clínica e obstétrica</legend>
+  <div class="inline-fields">
+    <label class="inline-field" for="pn-pa">
+      <span>PA</span>
+      <input id="pn-pa" type="text" inputmode="numeric" data-display="PA" data-unit="mmHg" placeholder="110/70">
+    </label>
+    <label class="inline-field" for="pn-fc">
+      <span>FC</span>
+      <input id="pn-fc" type="number" min="40" max="140" data-display="FC" data-unit="bpm" placeholder="82">
+    </label>
+    <label class="inline-field" for="pn-peso">
+      <span>Peso atual</span>
+      <input id="pn-peso" type="number" step="0.1" min="30" data-display="Peso atual" data-unit="kg" placeholder="72.5">
+    </label>
+    <label class="inline-field" for="pn-altura-uterina">
+      <span>Altura uterina</span>
+      <input id="pn-altura-uterina" type="number" step="0.5" min="0" data-display="Altura uterina" data-unit="cm" placeholder="28">
+    </label>
+    <label class="inline-field" for="pn-bcf">
+      <span>BCF</span>
+      <input id="pn-bcf" type="number" min="0" data-display="BCF" data-unit="bpm" placeholder="150">
+    </label>
+  </div>
+  <div class="field-row">
+    <label for="pn-edema">Edema</label>
+    <select id="pn-edema" data-display="Edema">
+      <option value="">Selecione...</option>
+      <option>Ausente</option>
+      <option>Leve em MMII</option>
+      <option>Generalizado</option>
+    </select>
+  </div>
+  <p class="option-group-title">Achados obstétricos</p>
+  <div class="option-list" role="group" aria-label="Achados obstétricos">
+    <label class="option">
+      <input type="checkbox" data-display="Movimentos fetais presentes">
+      <span>Movimentos fetais presentes</span>
+    </label>
+    <label class="option">
+      <input type="checkbox" data-display="Contrações irregulares">
+      <span>Contrações irregulares</span>
+    </label>
+    <label class="option">
+      <input type="checkbox" data-display="Secreção vaginal fisiológica">
+      <span>Secreção fisiológica</span>
+    </label>
+    <label class="option">
+      <input type="checkbox" data-display="Colo uterino fechado">
+      <span>Colo uterino fechado</span>
+    </label>
+    <label class="option">
+      <input type="checkbox" data-display="Sinais de trabalho de parto">
+      <span>Sinais de trabalho de parto</span>
+    </label>
+  </div>
+  <label for="pn-exame" class="textarea-label">Descrição adicional</label>
+  <textarea id="pn-exame" class="textarea-medium" data-display="Descrição do exame físico" placeholder="Detalhar achados positivos e negativos relevantes..."></textarea>
+</fieldset>
+
+<fieldset class="form-section" data-section="O" data-label="Exames laboratoriais e complementares">
+  <legend>Exames laboratoriais e complementares</legend>
+  <div class="field-row">
+    <label for="pn-exames-realizados">Exames avaliados</label>
+    <select id="pn-exames-realizados" multiple size="6" data-display="Exames avaliados">
+      <option>Hemograma</option>
+      <option>Glicemia/TTGO</option>
+      <option>Urina tipo I</option>
+      <option>Urocultura</option>
+      <option>Ultrassonografia obstétrica</option>
+      <option>Teste rápido sífilis/HIV</option>
+      <option>Sem exames recentes</option>
+    </select>
+  </div>
+  <label for="pn-exames-resultados" class="textarea-label">Resultados relevantes</label>
+  <textarea id="pn-exames-resultados" class="textarea-small" data-display="Resultados de exames" placeholder="Apresentar resultados e interpretações relevantes..."></textarea>
+</fieldset>
+
+<fieldset class="form-section" data-section="A" data-label="Avaliação e estratificação de risco">
+  <legend>Avaliação e estratificação de risco</legend>
+  <div class="field-row">
+    <label for="pn-classificacao-risco">Classificação de risco gestacional</label>
+    <select id="pn-classificacao-risco" data-display="Classificação de risco">
+      <option value="">Selecione...</option>
+      <option>Gestação de baixo risco</option>
+      <option>Gestação de risco intermediário</option>
+      <option>Gestação de alto risco</option>
+    </select>
+  </div>
+  <div class="field-row">
+    <label for="pn-conduta-risco">Conduta diante do risco</label>
+    <select id="pn-conduta-risco" data-display="Conduta definida">
+      <option value="">Selecione...</option>
+      <option>Manter seguimento na APS</option>
+      <option>Interconsulta com especialista</option>
+      <option>Encaminhar para pré-natal de alto risco</option>
+      <option>Encaminhar para maternidade de referência</option>
+    </select>
+  </div>
+  <label class="option-group-title">Fatores agravantes identificados</label>
+  <div class="option-list" role="group" aria-label="Fatores agravantes">
+    <label class="option">
+      <input type="checkbox" data-display="Pressão arterial elevada">
+      <span>Pressão arterial elevada</span>
+    </label>
+    <label class="option">
+      <input type="checkbox" data-display="Glicemia alterada">
+      <span>Glicemia alterada</span>
+    </label>
+    <label class="option">
+      <input type="checkbox" data-display="Infecção urinária">
+      <span>Infecção urinária</span>
+    </label>
+    <label class="option">
+      <input type="checkbox" data-display="Restrição de crescimento fetal suspeita">
+      <span>Restrição de crescimento fetal</span>
+    </label>
+    <label class="option">
+      <input type="checkbox" data-display="Condições psicossociais de risco">
+      <span>Condições psicossociais de risco</span>
+    </label>
+  </div>
+  <label for="pn-avaliacao" class="textarea-label">Síntese avaliativa</label>
+  <textarea id="pn-avaliacao" class="textarea-medium" data-display="Síntese avaliativa" placeholder="Integração dos achados, justificativas da classificação..."></textarea>
+</fieldset>
+
+<fieldset class="form-section" data-section="P" data-label="Plano terapêutico e orientações">
+  <legend>Plano terapêutico e orientações</legend>
+  <p class="option-group-title">Condutas adotadas</p>
+  <div class="option-list" role="group" aria-label="Condutas adotadas">
+    <label class="option">
+      <input type="checkbox" data-display="Solicitados exames complementares">
+      <span>Solicitação de exames</span>
+    </label>
+    <label class="option">
+      <input type="checkbox" data-display="Iniciada/ajustada medicação">
+      <span>Ajuste medicamentoso</span>
+    </label>
+    <label class="option">
+      <input type="checkbox" data-display="Orientado controle pressórico domiciliar">
+      <span>Controle pressórico domiciliar</span>
+    </label>
+    <label class="option">
+      <input type="checkbox" data-display="Orientado manejo de sinais de alerta">
+      <span>Orientação sobre sinais de alerta</span>
+    </label>
+    <label class="option">
+      <input type="checkbox" data-display="Encaminhado para apoio multiprofissional">
+      <span>Encaminhamento multiprofissional</span>
+    </label>
+  </div>
+  <div class="field-row">
+    <label for="pn-suplementacao">Suplementação prescrita</label>
+    <select id="pn-suplementacao" multiple size="5" data-display="Suplementação">
+      <option>Ácido fólico</option>
+      <option>Sulfato ferroso</option>
+      <option>Cálcio/vitamina D</option>
+      <option>Vitamina B12</option>
+      <option>Sem suplementação adicional</option>
+    </select>
+  </div>
+  <div class="field-row">
+    <label for="pn-retorno">Retorno agendado</label>
+    <select id="pn-retorno" data-display="Retorno agendado">
+      <option value="">Selecione...</option>
+      <option>1 semana</option>
+      <option>2 semanas</option>
+      <option>4 semanas</option>
+      <option>Imediato no alto risco</option>
+    </select>
+  </div>
+  <div class="field-row">
+    <label for="pn-retorno-data">Data do retorno</label>
+    <input id="pn-retorno-data" type="date" data-display="Data de retorno">
+  </div>
+  <label for="pn-orientacoes" class="textarea-label">Orientações gerais</label>
+  <textarea id="pn-orientacoes" class="textarea-medium" data-display="Orientações gerais" placeholder="Sinais de alarme, cuidados com alimentação, atividades permitidas..."></textarea>
+</fieldset>

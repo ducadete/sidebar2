@@ -1,0 +1,293 @@
+<fieldset class="form-section" data-section="S" data-label="Dados da criança e rotina familiar">
+  <legend>Dados da criança e rotina familiar</legend>
+  <div class="field-row">
+    <label for="pu-faixa-etaria">Faixa etária</label>
+    <select id="pu-faixa-etaria" data-display="Faixa etária">
+      <option value="">Selecione...</option>
+      <option>0-6 meses</option>
+      <option>7-12 meses</option>
+      <option>1-2 anos</option>
+      <option>3-5 anos</option>
+      <option>6-9 anos</option>
+    </select>
+  </div>
+  <div class="field-row">
+    <label for="pu-cuidador">Cuidador principal</label>
+    <select id="pu-cuidador" data-display="Cuidador principal">
+      <option value="">Selecione...</option>
+      <option>Mãe</option>
+      <option>Pai</option>
+      <option>Avós</option>
+      <option>Outro familiar</option>
+      <option>Creche/Escola</option>
+    </select>
+  </div>
+  <p class="option-group-title">Aspectos levantados</p>
+  <div class="option-list" role="group" aria-label="Aspectos levantados">
+    <label class="option">
+      <input type="checkbox" data-display="Sem queixas hoje">
+      <span>Sem queixas</span>
+    </label>
+    <label class="option">
+      <input type="checkbox" data-display="Familia solicita atualização vacinal">
+      <span>Família solicita atualização vacinal</span>
+    </label>
+    <label class="option">
+      <input type="checkbox" data-display="Dúvidas sobre alimentação">
+      <span>Dúvidas sobre alimentação</span>
+    </label>
+    <label class="option">
+      <input type="checkbox" data-display="Queixas de sono agitado">
+      <span>Queixa de sono agitado</span>
+    </label>
+    <label class="option">
+      <input type="checkbox" data-display="Demanda escolar relatada">
+      <span>Demanda escolar</span>
+    </label>
+  </div>
+  <label for="pu-queixa" class="textarea-label">Queixa principal ou motivo</label>
+  <textarea id="pu-queixa" class="textarea-medium" data-display="Queixa ou motivo" placeholder="Pais relatam..."></textarea>
+</fieldset>
+
+<fieldset class="form-section" data-section="S" data-label="Alimentação, sono e hábitos">
+  <legend>Alimentação, sono e hábitos</legend>
+  <div class="field-row">
+    <label for="pu-alimentacao">Padrão alimentar</label>
+    <select id="pu-alimentacao" data-display="Padrão alimentar">
+      <option value="">Selecione...</option>
+      <option>Aleitamento materno exclusivo</option>
+      <option>Aleitamento misto</option>
+      <option>Alimentação complementar adequada</option>
+      <option>Alimentação seletiva</option>
+      <option>Ingesta reduzida</option>
+    </select>
+  </div>
+  <div class="field-row">
+    <label for="pu-liquidos">Ingesta hídrica diária</label>
+    <select id="pu-liquidos" data-display="Ingesta hídrica">
+      <option value="">Selecione...</option>
+      <option>&lt; 500 ml/dia</option>
+      <option>500-1000 ml/dia</option>
+      <option>&gt; 1000 ml/dia</option>
+    </select>
+  </div>
+  <p class="option-group-title">Aspectos do sono</p>
+  <div class="option-list" role="group" aria-label="Aspectos do sono">
+    <label class="option">
+      <input type="checkbox" data-display="Sono noturno tranquilo">
+      <span>Sono noturno tranquilo</span>
+    </label>
+    <label class="option">
+      <input type="checkbox" data-display="Acorda múltiplas vezes">
+      <span>Acorda múltiplas vezes</span>
+    </label>
+    <label class="option">
+      <input type="checkbox" data-display="Sonolência diurna">
+      <span>Sonolência diurna</span>
+    </label>
+    <label class="option">
+      <input type="checkbox" data-display="Roncos noturnos">
+      <span>Roncos noturnos</span>
+    </label>
+  </div>
+  <label for="pu-habitos" class="textarea-label">Observações</label>
+  <textarea id="pu-habitos" class="textarea-small" data-display="Observações sobre hábitos" placeholder="Rotina de telas, atividades físicas..."></textarea>
+</fieldset>
+
+<fieldset class="form-section" data-section="S" data-label="Desenvolvimento e triagens">
+  <legend>Desenvolvimento e triagens</legend>
+  <div class="field-row">
+    <label for="pu-marcos">Marcos do desenvolvimento</label>
+    <select id="pu-marcos" multiple size="6" data-display="Marcos atingidos">
+      <option>Sustenta bem a cabeça</option>
+      <option>Senta sem apoio</option>
+      <option>Engatinha/anda</option>
+      <option>Forma frases</option>
+      <option>Socializa bem</option>
+      <option>Marcos atrasados relatados</option>
+    </select>
+  </div>
+  <p class="option-group-title">Triagens recentes</p>
+  <div class="option-list" role="group" aria-label="Triagens recentes">
+    <label class="option">
+      <input type="checkbox" data-display="Teste do pezinho atualizado">
+      <span>Teste do pezinho atualizado</span>
+    </label>
+    <label class="option">
+      <input type="checkbox" data-display="Avaliação oftalmológica realizada">
+      <span>Avaliação oftalmológica</span>
+    </label>
+    <label class="option">
+      <input type="checkbox" data-display="Avaliação auditiva realizada">
+      <span>Avaliação auditiva</span>
+    </label>
+    <label class="option">
+      <input type="checkbox" data-display="Triagem odontológica em dia">
+      <span>Triagem odontológica</span>
+    </label>
+  </div>
+  <label for="pu-desenvolvimento" class="textarea-label">Observações</label>
+  <textarea id="pu-desenvolvimento" class="textarea-small" data-display="Observações sobre desenvolvimento" placeholder="Resultados de triagens, encaminhamentos em andamento..."></textarea>
+</fieldset>
+
+<fieldset class="form-section" data-section="O" data-label="Avaliação antropométrica e exame físico">
+  <legend>Avaliação antropométrica e exame físico</legend>
+  <div class="inline-fields">
+    <label class="inline-field" for="pu-peso">
+      <span>Peso</span>
+      <input id="pu-peso" type="number" step="0.01" min="0" data-display="Peso" data-unit="kg" placeholder="8.5">
+    </label>
+    <label class="inline-field" for="pu-altura">
+      <span>Estatura</span>
+      <input id="pu-altura" type="number" step="0.1" min="0" data-display="Estatura" data-unit="cm" placeholder="72">
+    </label>
+    <label class="inline-field" for="pu-pc">
+      <span>PC</span>
+      <input id="pu-pc" type="number" step="0.1" min="0" data-display="Perímetro cefálico" data-unit="cm" placeholder="44">
+    </label>
+    <label class="inline-field" for="pu-imc">
+      <span>IMC</span>
+      <input id="pu-imc" type="number" step="0.1" min="0" data-display="IMC" data-unit="kg/m²" placeholder="16.5">
+    </label>
+  </div>
+  <div class="field-row">
+    <label for="pu-percentil">Percentis/Curvas</label>
+    <select id="pu-percentil" data-display="Avaliação em curvas">
+      <option value="">Selecione...</option>
+      <option>Peso adequado para idade</option>
+      <option>Baixo peso para idade</option>
+      <option>Altura adequada para idade</option>
+      <option>Risco de sobrepeso</option>
+      <option>Obesidade</option>
+    </select>
+  </div>
+  <p class="option-group-title">Achados do exame físico</p>
+  <div class="option-list" role="group" aria-label="Achados do exame físico">
+    <label class="option">
+      <input type="checkbox" data-display="Estado geral: ativo e reativo">
+      <span>Estado geral bom</span>
+    </label>
+    <label class="option">
+      <input type="checkbox" data-display="Pele sem lesões">
+      <span>Pele sem lesões</span>
+    </label>
+    <label class="option">
+      <input type="checkbox" data-display="Ass sopros cardíacos">
+      <span>Ausência de sopros</span>
+    </label>
+    <label class="option">
+      <input type="checkbox" data-display="Ausência de sibilos ou tiragem">
+      <span>Ausência de sibilos/tiragem</span>
+    </label>
+    <label class="option">
+      <input type="checkbox" data-display="Alterações em cavidade oral">
+      <span>Alterações em cavidade oral</span>
+    </label>
+    <label class="option">
+      <input type="checkbox" data-display="Alterações ortopédicas observadas">
+      <span>Alterações ortopédicas</span>
+    </label>
+  </div>
+  <label for="pu-exame" class="textarea-label">Descrição complementar</label>
+  <textarea id="pu-exame" class="textarea-medium" data-display="Descrição do exame físico" placeholder="Detalhar achados relevantes, exames específicos..."></textarea>
+</fieldset>
+
+<fieldset class="form-section" data-section="O" data-label="Situação vacinal e exames">
+  <legend>Situação vacinal e exames</legend>
+  <div class="field-row">
+    <label for="pu-vacinas">Vacinas realizadas na visita</label>
+    <select id="pu-vacinas" multiple size="6" data-display="Vacinas aplicadas">
+      <option>BCG</option>
+      <option>Hepatite B</option>
+      <option>Penta</option>
+      <option>VIP/VOP</option>
+      <option>Rotavírus</option>
+      <option>Tríplice viral</option>
+      <option>Influenza</option>
+      <option>Covid-19 pediátrica</option>
+      <option>Nenhuma hoje</option>
+    </select>
+  </div>
+  <div class="field-row">
+    <label for="pu-exames">Exames complementares</label>
+    <select id="pu-exames" multiple size="4" data-display="Exames solicitados/avaliados">
+      <option>Hemograma</option>
+      <option>Dosagem de ferro/ferritina</option>
+      <option>Exame de fezes</option>
+      <option>Audiometria</option>
+      <option>Teste de acuidade visual</option>
+      <option>Nenhum exame indicado</option>
+    </select>
+  </div>
+  <label for="pu-vacina-notas" class="textarea-label">Observações</label>
+  <textarea id="pu-vacina-notas" class="textarea-small" data-display="Notas sobre vacinação/exames" placeholder="Reações prévias, resultados recebidos..."></textarea>
+</fieldset>
+
+<fieldset class="form-section" data-section="A" data-label="Avaliação clínica">
+  <legend>Avaliação clínica</legend>
+  <div class="field-row">
+    <label for="pu-avaliacao-nutricional">Avaliação nutricional</label>
+    <select id="pu-avaliacao-nutricional" data-display="Avaliação nutricional">
+      <option value="">Selecione...</option>
+      <option>Adequada para idade</option>
+      <option>Risco de déficit nutricional</option>
+      <option>Risco de sobrepeso</option>
+      <option>Sobrepeso/obesidade</option>
+    </select>
+  </div>
+  <div class="field-row">
+    <label for="pu-desenvolvimento-classificacao">Classificação do desenvolvimento</label>
+    <select id="pu-desenvolvimento-classificacao" data-display="Desenvolvimento">
+      <option value="">Selecione...</option>
+      <option>Adequado</option>
+      <option>Alerta - acompanhar</option>
+      <option>Risco - encaminhar</option>
+    </select>
+  </div>
+  <label for="pu-avaliacao" class="textarea-label">Resumo avaliativo</label>
+  <textarea id="pu-avaliacao" class="textarea-medium" data-display="Resumo avaliativo" placeholder="Síntese dos principais achados e hipóteses..."></textarea>
+</fieldset>
+
+<fieldset class="form-section" data-section="P" data-label="Plano de cuidado e orientações">
+  <legend>Plano de cuidado e orientações</legend>
+  <p class="option-group-title">Intervenções desta consulta</p>
+  <div class="option-list" role="group" aria-label="Intervenções desta consulta">
+    <label class="option">
+      <input type="checkbox" data-display="Orientações sobre aleitamento fornecidas">
+      <span>Orientações sobre aleitamento</span>
+    </label>
+    <label class="option">
+      <input type="checkbox" data-display="Plano alimentar atualizado">
+      <span>Plano alimentar atualizado</span>
+    </label>
+    <label class="option">
+      <input type="checkbox" data-display="Encaminhado para odontopediatria">
+      <span>Encaminhamento odontopediatria</span>
+    </label>
+    <label class="option">
+      <input type="checkbox" data-display="Encaminhado para fonoaudiologia">
+      <span>Encaminhamento fonoaudiologia</span>
+    </label>
+    <label class="option">
+      <input type="checkbox" data-display="Acompanhamento domiciliar agendado">
+      <span>Acompanhamento domiciliar</span>
+    </label>
+  </div>
+  <div class="field-row">
+    <label for="pu-retorno">Retorno programado</label>
+    <select id="pu-retorno" data-display="Retorno programado">
+      <option value="">Selecione...</option>
+      <option>1 mês</option>
+      <option>2 meses</option>
+      <option>3 meses</option>
+      <option>6 meses</option>
+      <option>Conforme demanda</option>
+    </select>
+  </div>
+  <div class="field-row">
+    <label for="pu-retorno-data">Data do retorno</label>
+    <input id="pu-retorno-data" type="date" data-display="Data do retorno">
+  </div>
+  <label for="pu-orientacoes" class="textarea-label">Orientações à família</label>
+  <textarea id="pu-orientacoes" class="textarea-medium" data-display="Orientações fornecidas" placeholder="Estimular brincadeiras, reduzir tempo de tela..."></textarea>
+</fieldset>

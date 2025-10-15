@@ -227,188 +227,161 @@ document.addEventListener('DOMContentLoaded', () => {
   carregarProtocolos();
 
   // --------- Guia de Consulta com geração SOAP ---------
-  const atendimentos = {
-    'Consulta Clínica Geral': [
-      {
-        name: 'queixaPrincipal',
-        label: 'Queixa principal',
-        placeholder: 'Paciente refere dor torácica há 2 dias... ',
-        section: 'S'
-      },
-      {
-        name: 'historia',
-        label: 'História da doença atual',
-        placeholder: 'Relatar evolução, fatores de melhora/piora, tratamentos prévios...',
-        section: 'S'
-      },
-      {
-        name: 'sinaisVitais',
-        label: 'Sinais vitais e dados objetivos',
-        placeholder: 'PA 120x80 mmHg, FC 78 bpm, SpO₂ 97%... ',
-        section: 'O'
-      },
-      {
-        name: 'exameFisico',
-        label: 'Exame físico',
-        placeholder: 'Descrever achados relevantes por sistemas...',
-        section: 'O'
-      },
-      {
-        name: 'hipoteses',
-        label: 'Hipóteses diagnósticas',
-        placeholder: 'Hipótese principal e diferenciais...',
-        section: 'A'
-      },
-      {
-        name: 'plano',
-        label: 'Plano terapêutico',
-        placeholder: 'Condutas, exames solicitados, medicações...',
-        section: 'P'
-      },
-      {
-        name: 'orientacoes',
-        label: 'Orientações e acompanhamento',
-        placeholder: 'Educação em saúde, sinais de alarme, retorno...',
-        section: 'P'
-      }
-    ],
-    'Puericultura': [
-      {
-        name: 'motivoConsulta',
-        label: 'Motivo da consulta',
-        placeholder: 'Acompanhamento de rotina, dúvidas da família...',
-        section: 'S'
-      },
-      {
-        name: 'alimentacaoSono',
-        label: 'Alimentação e sono',
-        placeholder: 'Padrões alimentares, aleitamento, acordares noturnos...',
-        section: 'S'
-      },
-      {
-        name: 'desenvolvimento',
-        label: 'Marcos do desenvolvimento',
-        placeholder: 'Sustenta a cabeça, rola, balbucia... ',
-        section: 'O'
-      },
-      {
-        name: 'exameFisicoPediatrico',
-        label: 'Exame físico',
-        placeholder: 'Peso, estatura, perímetro cefálico, achados gerais...',
-        section: 'O'
-      },
-      {
-        name: 'avaliacaoCrescimento',
-        label: 'Avaliação do crescimento e riscos',
-        placeholder: 'Percentis, curva de crescimento, fatores de risco identificados...',
-        section: 'A'
-      },
-      {
-        name: 'planoPuericultura',
-        label: 'Plano e orientações',
-        placeholder: 'Vacinas, suplementações, orientações para família, retorno...',
-        section: 'P'
-      }
-    ],
-    'Pré-Natal': [
-      {
-        name: 'queixaPrenatal',
-        label: 'Queixa ou motivo da consulta',
-        placeholder: 'Acompanhamento gestacional, sintomas atuais...',
-        section: 'S'
-      },
-      {
-        name: 'antecedentesObstetricos',
-        label: 'Antecedentes obstétricos',
-        placeholder: 'Gestações prévias, partos, intercorrências...',
-        section: 'S'
-      },
-      {
-        name: 'avaliacaoClinica',
-        label: 'Avaliação clínica e obstétrica',
-        placeholder: 'PA, altura uterina, BCF, edema, exames recentes...',
-        section: 'O'
-      },
-      {
-        name: 'riscoGestacional',
-        label: 'Estratificação de risco',
-        placeholder: 'Classificação do risco gestacional e justificativas...',
-        section: 'A'
-      },
-      {
-        name: 'condutasPrenatal',
-        label: 'Plano e condutas',
-        placeholder: 'Solicitação de exames, suplementação, encaminhamentos...',
-        section: 'P'
-      },
-      {
-        name: 'orientacoesPrenatal',
-        label: 'Orientações e sinais de alerta',
-        placeholder: 'Educação em saúde, sinais de alarme, retorno programado...',
-        section: 'P'
-      }
-    ]
-  };
+  const atendimentosConfigurados = [
+    {
+      id: 'consulta-clinica',
+      label: 'Consulta Clínica Geral',
+      arquivo: 'atendimentos/consulta-clinica.html'
+    },
+    {
+      id: 'puericultura',
+      label: 'Puericultura',
+      arquivo: 'atendimentos/puericultura.html'
+    },
+    {
+      id: 'pre-natal',
+      label: 'Pré-Natal',
+      arquivo: 'atendimentos/pre-natal.html'
+    }
+  ];
 
   const atendimentoSelect = document.getElementById('atendimento-select');
   const formFieldsContainer = document.getElementById('form-fields');
   const atendimentoForm = document.getElementById('atendimento-form');
   const soapOutput = document.getElementById('soap-output');
   const copyButton = document.getElementById('copy-soap');
+  const formularioCache = new Map();
 
   function popularSelect() {
-    Object.keys(atendimentos).forEach((tipo, index) => {
+    atendimentoSelect.innerHTML = '';
+    atendimentosConfigurados.forEach((configuracao, index) => {
       const option = document.createElement('option');
-      option.value = tipo;
-      option.textContent = tipo;
+      option.value = configuracao.id;
+      option.textContent = configuracao.label;
       if (index === 0) option.selected = true;
       atendimentoSelect.appendChild(option);
     });
   }
 
-  function renderFormFields(tipo) {
-    formFieldsContainer.innerHTML = '';
-    const campos = atendimentos[tipo];
-
-    campos.forEach(campo => {
-      const wrapper = document.createElement('div');
-      wrapper.className = 'field-group';
-
-      const label = document.createElement('label');
-      label.htmlFor = campo.name;
-      label.textContent = campo.label;
-
-      const textarea = document.createElement('textarea');
-      textarea.id = campo.name;
-      textarea.name = campo.name;
-      textarea.placeholder = campo.placeholder;
-      textarea.dataset.section = campo.section;
-
-      wrapper.append(label, textarea);
-      formFieldsContainer.appendChild(wrapper);
-    });
+  function resolverCaminhoRecurso(caminhoRelativo) {
+    if (typeof chrome !== 'undefined' && chrome.runtime?.getURL) {
+      return chrome.runtime.getURL(caminhoRelativo);
+    }
+    if (typeof browser !== 'undefined' && browser.runtime?.getURL) {
+      return browser.runtime.getURL(caminhoRelativo);
+    }
+    return caminhoRelativo;
   }
 
-  atendimentoSelect.addEventListener('change', event => {
+  async function carregarFormulario(tipoId) {
+    const configuracao = atendimentosConfigurados.find(item => item.id === tipoId);
+    if (!configuracao) {
+      formFieldsContainer.innerHTML = '<p class="placeholder-text">Tipo de atendimento não configurado.</p>';
+      return;
+    }
+
+    if (formularioCache.has(configuracao.id)) {
+      formFieldsContainer.innerHTML = formularioCache.get(configuracao.id);
+      return;
+    }
+
+    formFieldsContainer.innerHTML = '<p class="placeholder-text">Carregando formulário personalizado...</p>';
+
+    try {
+      const resposta = await fetch(resolverCaminhoRecurso(configuracao.arquivo), { cache: 'no-store' });
+      if (!resposta.ok) throw new Error(`Status ${resposta.status}`);
+
+      const html = await resposta.text();
+      formularioCache.set(configuracao.id, html);
+      formFieldsContainer.innerHTML = html;
+    } catch (erro) {
+      console.error('Erro ao carregar formulário de atendimento:', erro);
+      formFieldsContainer.innerHTML = '<p class="placeholder-text">Não foi possível carregar o formulário no momento.</p>';
+    }
+  }
+
+  function extrairValorDoGrupo(grupo) {
+    const valores = [];
+
+    const selects = Array.from(grupo.querySelectorAll('select'));
+    selects.forEach(select => {
+      const selecionados = Array.from(select.selectedOptions)
+        .map(option => option.dataset.display || option.textContent.trim())
+        .filter(Boolean);
+      if (!selecionados.length) return;
+      const label = select.dataset.display
+        || grupo.querySelector(`label[for="${select.id}"]`)?.textContent?.trim()
+        || select.name;
+      const descricao = selecionados.join(', ');
+      valores.push(label ? `${label}: ${descricao}` : descricao);
+    });
+
+    const camposTexto = Array.from(
+      grupo.querySelectorAll('input[type="text"], input[type="number"], input[type="date"], input[type="time"], input[type="tel"]')
+    );
+    camposTexto.forEach(input => {
+      const valor = input.value.trim();
+      if (!valor) return;
+      const label = input.dataset.display
+        || grupo.querySelector(`label[for="${input.id}"]`)?.textContent?.trim()
+        || input.name;
+      const unidade = input.dataset.unit ? ` ${input.dataset.unit}` : '';
+      valores.push(label ? `${label}: ${valor}${unidade}` : `${valor}${unidade}`);
+    });
+
+    const checkboxes = Array.from(grupo.querySelectorAll('input[type="checkbox"]'));
+    if (checkboxes.length) {
+      const selecionados = checkboxes
+        .filter(checkbox => checkbox.checked)
+        .map(checkbox => checkbox.dataset.display || checkbox.closest('label')?.textContent?.trim() || checkbox.value)
+        .filter(Boolean);
+      if (selecionados.length) {
+        valores.push(selecionados.join('; '));
+      }
+    }
+
+    const radios = Array.from(grupo.querySelectorAll('input[type="radio"]'));
+    if (radios.length) {
+      const selecionado = radios.find(radio => radio.checked);
+      const descricao = selecionado?.dataset.display || selecionado?.closest('label')?.textContent?.trim();
+      if (descricao) valores.push(descricao);
+    }
+
+    const textareas = Array.from(grupo.querySelectorAll('textarea'));
+    textareas.forEach(textarea => {
+      const valor = textarea.value.trim();
+      if (!valor) return;
+      const label = textarea.dataset.display
+        || grupo.querySelector(`label[for="${textarea.id}"]`)?.textContent?.trim()
+        || textarea.name;
+      valores.push(label ? `${label}: ${valor}` : valor);
+    });
+
+    return valores.join(' | ');
+  }
+
+  atendimentoSelect.addEventListener('change', async event => {
     const tipo = event.target.value;
-    renderFormFields(tipo);
     soapOutput.innerHTML = '<p class="placeholder-text">Preencha o formulário e clique em "Gerar texto SOAP" para visualizar o resultado.</p>';
     copyButton.disabled = true;
+    await carregarFormulario(tipo);
   });
 
   atendimentoForm.addEventListener('submit', event => {
     event.preventDefault();
 
-    const campos = Array.from(formFieldsContainer.querySelectorAll('textarea'));
+    const grupos = Array.from(formFieldsContainer.querySelectorAll('[data-section][data-label]'));
     const secoes = { S: [], O: [], A: [], P: [] };
 
-    campos.forEach(textarea => {
-      const valor = textarea.value.trim();
+    grupos.forEach(grupo => {
+      const valor = extrairValorDoGrupo(grupo);
       if (!valor) return;
 
-      const section = textarea.dataset.section;
-      const label = formFieldsContainer.querySelector(`label[for="${textarea.id}"]`).textContent;
-      secoes[section].push(`${label}: ${valor}`);
+      const section = grupo.dataset.section?.toUpperCase();
+      const label = grupo.dataset.label;
+      if (section && secoes[section]) {
+        secoes[section].push(`${label}: ${valor}`);
+      }
     });
 
     const soapText = [
@@ -420,6 +393,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
     soapOutput.textContent = soapText;
     copyButton.disabled = !soapText.trim();
+  });
+
+  formFieldsContainer.addEventListener('input', event => {
+    if (event.target instanceof HTMLInputElement || event.target instanceof HTMLTextAreaElement) {
+      copyButton.disabled = true;
+    }
+  });
+
+  formFieldsContainer.addEventListener('change', event => {
+    if (event.target instanceof HTMLInputElement || event.target instanceof HTMLTextAreaElement || event.target instanceof HTMLSelectElement) {
+      copyButton.disabled = true;
+    }
   });
 
   copyButton.addEventListener('click', async () => {
@@ -445,5 +430,5 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   popularSelect();
-  renderFormFields(atendimentoSelect.value);
+  void carregarFormulario(atendimentoSelect.value);
 });
