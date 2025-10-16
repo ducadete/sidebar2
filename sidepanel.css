@@ -544,6 +544,96 @@ body::before {
   transform: translateY(-2px);
 }
 
+.guidance-section {
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 18px;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 12px 28px rgba(15, 23, 42, 0.12);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.guidance-section h2 {
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.guidance-intro {
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+.guidance-grid {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 640px) {
+  .guidance-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.guidance-card {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 14px;
+  background: linear-gradient(135deg, rgba(37, 99, 235, 0.08), rgba(56, 189, 248, 0.08));
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.guidance-card h3 {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--primary-dark);
+}
+
+.guidance-card ul {
+  padding-left: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  line-height: 1.5;
+}
+
+.guidance-card li {
+  color: var(--text);
+}
+
+.guidance-card strong {
+  color: var(--primary-dark);
+}
+
+.guidance-source {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.guidance-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+  color: var(--primary-dark);
+  text-decoration: none;
+}
+
+.guidance-link::after {
+  content: '\2197';
+  font-size: 12px;
+}
+
+.guidance-link:hover,
+.guidance-link:focus {
+  color: var(--primary);
+  text-decoration: underline;
+}
+
 .item-list::-webkit-scrollbar {
   width: 6px;
 }
@@ -700,6 +790,25 @@ body::before {
   .content-display-area,
   .soap-output {
     background: rgba(11, 17, 35, 0.88);
+  }
+
+  .guidance-section {
+    background: rgba(15, 23, 42, 0.72);
+    box-shadow: 0 20px 38px rgba(2, 6, 23, 0.65);
+  }
+
+  .guidance-card {
+    background: linear-gradient(135deg, rgba(37, 99, 235, 0.24), rgba(56, 189, 248, 0.18));
+    border-color: rgba(59, 82, 139, 0.6);
+  }
+
+  .guidance-link {
+    color: #bfdbfe;
+  }
+
+  .guidance-link:hover,
+  .guidance-link:focus {
+    color: #e0f2fe;
   }
 
   .secondary-button {
