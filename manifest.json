@@ -1,0 +1,26 @@
+{
+  "manifest_version": 3,
+  "name": "Protocolos USF Vila Dutra — Sanfona",
+  "version": "1.0.1",
+  "description": "Protocolos do Firestore com busca inteligente e UI em sanfona (accordion).",
+  "permissions": [
+    "storage"
+  ],
+  "host_permissions": [
+    "https://firestore.googleapis.com/*",
+    "https://*.googleapis.com/*",
+    "https://*.gstatic.com/*"
+  ],
+  "icons": {
+    "128": "icons/icon128.png"
+  },
+  "action": {
+    "default_title": "Protocolos (abrir em aba)"
+  },
+  "background": {
+    "service_worker": "bg.js"
+  },
+  "content_security_policy": {
+    "extension_pages": "script-src 'self' 'wasm-unsafe-eval'; object-src 'self'"
+  }
+}

@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Protocolos — Sanfona</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <header class="hdr">
+    <div class="title">Protocolos (USF Vila Dutra) — Sanfona</div>
+  </header>
+
+  <main class="container">
+    <div class="search-wrap">
+      <input id="q" class="search" type="text"
+             placeholder="Ex.: cid:j45 | tema:gestante | has:anexo | “frase exata” | !excluir"
+             autocomplete="off" />
+      <div id="chips" class="chips hidden"></div>
+    </div>
+
+    <div class="tips">
+      <code>cid:J45</code> <code>tema:gestante</code> <code>has:anexo</code>
+      <code>"frase exata"</code> <code>!termo</code>
+    </div>
+
+    <div id="state" class="state">Carregando protocolos…</div>
+    <div id="results" class="results"></div>
+    <div id="empty" class="empty hidden">Nenhum protocolo encontrado.</div>
+  </main>
+
+  <!-- Fuse como global (precisa do arquivo em vendor/) -->
+  <script src="vendor/fuse.min.js"></script>
+
+  <!-- Bootstrap do app (ES Module) -->
+  <script type="module" src="js/bootstrap-app.js"></script>
+</body>
+</html>
