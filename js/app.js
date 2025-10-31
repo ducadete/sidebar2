@@ -1,10 +1,14 @@
 import { norm, makeKeywords, buildFuseQuery, highlight } from "./search.js";
+import { loadScript } from "./asset-loader.js";
 
-export function setupApp({ firebase, dom, ui = { mode: "accordion" } }) {
+export async function setupApp({ firebase, dom, ui = { mode: "accordion" } }) {
   const { q, chips, state, results, empty } = dom;
-  const Fuse = window.Fuse;
+  const Fuse = await ensureFuse();
   if (!Fuse) {
+    state.classList.remove("hidden");
+    state.textContent = "Não foi possível carregar a busca (Fuse.js ausente).";
     console.error("Fuse.js não encontrado. Coloque vendor/fuse.min.js e recarregue.");
+    return;
   }
 
   let fuse = null;
@@ -23,7 +27,7 @@ export function setupApp({ firebase, dom, ui = { mode: "accordion" } }) {
     measurementId: "G-XEVSG8M6QZ"
   };
 
-  if (!firebase.apps || !firebase.apps.length) {
+  if (!firebase?.apps || !firebase.apps.length) {
     firebase.initializeApp(firebaseConfig);
   }
   const db = firebase.firestore();
@@ -310,4 +314,15 @@ export function setupApp({ firebase, dom, ui = { mode: "accordion" } }) {
       chips.classList.add("hidden");
     }
   });
+}
+
+async function ensureFuse() {
+  if (window.Fuse) return window.Fuse;
+  try {
+    await loadScript("vendor/fuse.min.js");
+  } catch (err) {
+    console.error(err);
+    return null;
+  }
+  return window.Fuse || null;
 }

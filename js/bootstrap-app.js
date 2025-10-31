@@ -4,7 +4,7 @@ import { setupApp } from "./app.js";
 
 const firebase = await loadFirebase();
 
-setupApp({
+await setupApp({
   firebase,
   dom: {
     q: document.querySelector("#q"),
