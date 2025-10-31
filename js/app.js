@@ -221,29 +221,64 @@ export function setupApp({ firebase, dom, ui = { mode: "accordion" } }) {
   }
 
   function renderChips(query) {
-    const qn = norm(query);
-    if (!qn) { chips.classList.add("hidden"); chips.innerHTML=""; return; }
+    const tokens = (query || "").toString().split(/\s+/).filter(Boolean);
+    if (!tokens.length) { chips.classList.add("hidden"); chips.innerHTML=""; return; }
+
+    const lastRaw = tokens[tokens.length - 1];
+    const lastNorm = norm(lastRaw);
+    if (!lastNorm) { chips.classList.add("hidden"); chips.innerHTML=""; return; }
+
+    const colonIndex = lastNorm.indexOf(":");
+    const prefix = colonIndex >= 0 ? lastNorm.slice(0, colonIndex) : "";
+    const searchTerm = colonIndex >= 0 ? lastNorm.slice(colonIndex + 1) : lastNorm;
 
     const cidSet = new Set();
-    const temaCount = new Map();
-    const doencaCount = new Map();
+    const temaMap = new Map(); // normalized -> display
+    const doencaSet = new Set();
 
     normalizedIndex.forEach(p => {
       (p.cidsRaw || []).forEach(c => cidSet.add(c));
-      if (p.tema) temaCount.set(p.tema, (temaCount.get(p.tema)||0)+1);
-      (p.doencas||"").split(";").map(x=>norm(x.trim())).filter(Boolean).forEach(d=>{
-        doencaCount.set(d, (doencaCount.get(d)||0)+1);
-      });
+      if (p.tema) {
+        const temaNorm = norm(p.tema);
+        if (!temaMap.has(temaNorm)) {
+          temaMap.set(temaNorm, p.tema);
+        }
+      }
+      (p.doencas || "")
+        .split(";")
+        .map(x => norm(x.trim()))
+        .filter(Boolean)
+        .forEach(d => doencaSet.add(d));
     });
 
-    const cidMatches = Array.from(cidSet).filter(c => norm(c).includes(qn.replace("cid:",""))).slice(0,5);
-    const temaMatches = Array.from(temaCount.keys()).filter(t => t.includes(qn)).slice(0,3);
-    const doencaMatches = Array.from(doencaCount.keys()).filter(d => d.includes(qn)).slice(0,3);
-
     const chipData = [];
-    cidMatches.forEach(c => chipData.push({label:`CID \${c}`, value:`cid:\${c}`}));
-    temaMatches.forEach(t => chipData.push({label:`tema:\${t}`, value:`tema:\${t}`}));
-    doencaMatches.forEach(d => chipData.push({label:`doenca:\${d}`, value:`doenca:\${d}`}));
+
+    if (!prefix || prefix === "cid") {
+      const cidTerm = searchTerm.replace(/\./g, "");
+      Array.from(cidSet)
+        .filter(c => !cidTerm || norm(c).includes(cidTerm))
+        .slice(0, 5)
+        .forEach(c => chipData.push({ label: `CID \${c}`, value: `cid:\${c}` }));
+    }
+
+    if (!prefix || prefix === "tema") {
+      Array.from(temaMap.entries())
+        .filter(([temaNorm]) => !searchTerm || temaNorm.includes(searchTerm))
+        .slice(0, 3)
+        .forEach(([, display]) => {
+          const value = norm(display);
+          if (value) {
+            chipData.push({ label: `tema:\${display}`, value: `tema:\${value}` });
+          }
+        });
+    }
+
+    if (!prefix || prefix === "doenca" || prefix === "doencas") {
+      Array.from(doencaSet)
+        .filter(d => !searchTerm || d.includes(searchTerm))
+        .slice(0, 3)
+        .forEach(d => chipData.push({ label: `doenca:\${d}`, value: `doenca:\${d}` }));
+    }
 
     chips.innerHTML = "";
     if (!chipData.length) { chips.classList.add("hidden"); return; }
