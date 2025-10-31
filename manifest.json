@@ -4,7 +4,8 @@
   "version": "1.0.1",
   "description": "Protocolos do Firestore com busca inteligente e UI em sanfona (accordion).",
   "permissions": [
-    "storage"
+    "storage",
+    "sidePanel"
   ],
   "host_permissions": [
     "https://firestore.googleapis.com/*",
@@ -15,10 +16,13 @@
     "128": "icons/icon128.png"
   },
   "action": {
-    "default_title": "Protocolos (abrir em aba)"
+    "default_title": "Protocolos (abrir painel lateral)"
   },
   "background": {
     "service_worker": "bg.js"
+  },
+  "side_panel": {
+    "default_path": "app.html"
   },
   "content_security_policy": {
     "extension_pages": "script-src 'self' 'wasm-unsafe-eval'; object-src 'self'"
