@@ -1,7 +1,15 @@
 // js/asset-loader.js
 const pendingLoads = new Map();
 
+function isAbsoluteURL(path) {
+  return /^[a-zA-Z][a-zA-Z\d+\-.]*:/.test(path) || path.startsWith("//");
+}
+
 function resolveAssetURL(path) {
+  if (isAbsoluteURL(path)) {
+    return path;
+  }
+
   if (typeof chrome !== "undefined" && chrome?.runtime?.getURL) {
     try {
       return chrome.runtime.getURL(path);
